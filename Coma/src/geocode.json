@@ -1,0 +1,540 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "217",
+               "short_name" : "217",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "East 21st Street",
+               "short_name" : "E 21st St",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Midtown",
+               "short_name" : "Midtown",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Manhattan",
+               "short_name" : "Manhattan",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "10010",
+               "short_name" : "10010",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "217 East 21st Street, New York, NY 10010, USA",
+         "geometry" : {
+            "location" : {
+               "lat" : 40.737342,
+               "lng" : -73.983014
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.73869098029149,
+                  "lng" : -73.9816650197085
+               },
+               "southwest" : {
+                  "lat" : 40.73599301970849,
+                  "lng" : -73.98436298029151
+               }
+            }
+         },
+         "types" : [ "street_address" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Gramercy Park",
+               "short_name" : "Gramercy Park",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Manhattan",
+               "short_name" : "Manhattan",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Gramercy Park, New York, NY, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.74018510000001,
+                  "lng" : -73.97851659999999
+               },
+               "southwest" : {
+                  "lat" : 40.7313077,
+                  "lng" : -73.98880539999999
+               }
+            },
+            "location" : {
+               "lat" : 40.7367783,
+               "lng" : -73.9844722
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.74018510000001,
+                  "lng" : -73.97851659999999
+               },
+               "southwest" : {
+                  "lat" : 40.7313077,
+                  "lng" : -73.98880539999999
+               }
+            }
+         },
+         "types" : [ "neighborhood", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "10010",
+               "short_name" : "10010",
+               "types" : [ "postal_code" ]
+            },
+            {
+               "long_name" : "Manhattan",
+               "short_name" : "Manhattan",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "New York, NY 10010, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.745421,
+                  "lng" : -73.97203739999999
+               },
+               "southwest" : {
+                  "lat" : 40.73231,
+                  "lng" : -73.994028
+               }
+            },
+            "location" : {
+               "lat" : 40.7388319,
+               "lng" : -73.98153370000001
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.745421,
+                  "lng" : -73.97203739999999
+               },
+               "southwest" : {
+                  "lat" : 40.73231,
+                  "lng" : -73.994028
+               }
+            }
+         },
+         "types" : [ "postal_code" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Midtown",
+               "short_name" : "Midtown",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Manhattan",
+               "short_name" : "Manhattan",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Midtown, New York, NY, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.77410690000001,
+                  "lng" : -73.95889869999999
+               },
+               "southwest" : {
+                  "lat" : 40.72686849999999,
+                  "lng" : -74.0089488
+               }
+            },
+            "location" : {
+               "lat" : 40.7509915,
+               "lng" : -73.9888797
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.77410690000001,
+                  "lng" : -73.95889869999999
+               },
+               "southwest" : {
+                  "lat" : 40.72686849999999,
+                  "lng" : -74.0089488
+               }
+            }
+         },
+         "types" : [ "neighborhood", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Manhattan",
+               "short_name" : "Manhattan",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Manhattan, New York, NY, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.882214,
+                  "lng" : -73.907
+               },
+               "southwest" : {
+                  "lat" : 40.6795479,
+                  "lng" : -74.047285
+               }
+            },
+            "location" : {
+               "lat" : 40.7902778,
+               "lng" : -73.9597222
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.820045,
+                  "lng" : -73.90331300000001
+               },
+               "southwest" : {
+                  "lat" : 40.698078,
+                  "lng" : -74.03514899999999
+               }
+            }
+         },
+         "types" : [ "sublocality", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "New York, NY, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.8792779,
+                  "lng" : -73.907
+               },
+               "southwest" : {
+                  "lat" : 40.6795929,
+                  "lng" : -74.04726289999999
+               }
+            },
+            "location" : {
+               "lat" : 40.7830603,
+               "lng" : -73.9712488
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.8792779,
+                  "lng" : -73.907
+               },
+               "southwest" : {
+                  "lat" : 40.6795929,
+                  "lng" : -74.04726289999999
+               }
+            }
+         },
+         "types" : [ "administrative_area_level_2", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "New York, NY, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.91525559999999,
+                  "lng" : -73.70027209999999
+               },
+               "southwest" : {
+                  "lat" : 40.4959961,
+                  "lng" : -74.2590879
+               }
+            },
+            "location" : {
+               "lat" : 40.7143528,
+               "lng" : -74.00597309999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.91525559999999,
+                  "lng" : -73.70027209999999
+               },
+               "southwest" : {
+                  "lat" : 40.496006,
+                  "lng" : -74.25573489999999
+               }
+            }
+         },
+         "types" : [ "locality", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "ニュー・ヨーク＝ノーザン・ニュー・ジャージー＝ロング・アイランド",
+               "short_name" : "ニュー・ヨーク＝ノーザン・ニュー・ジャージー＝ロング・アイランド",
+               "types" : [ "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "United States, ニュー・ヨーク＝ノーザン・ニュー・ジャージー＝ロング・アイランド",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 41.6018065,
+                  "lng" : -71.85621399999999
+               },
+               "southwest" : {
+                  "lat" : 39.49853299999999,
+                  "lng" : -75.3585939
+               }
+            },
+            "location" : {
+               "lat" : 40.9590293,
+               "lng" : -74.0300122
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 41.6018065,
+                  "lng" : -71.85621399999999
+               },
+               "southwest" : {
+                  "lat" : 39.49853299999999,
+                  "lng" : -75.3585939
+               }
+            }
+         },
+         "types" : [ "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "New York, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 45.015865,
+                  "lng" : -71.85626429999999
+               },
+               "southwest" : {
+                  "lat" : 40.4959961,
+                  "lng" : -79.76214379999999
+               }
+            },
+            "location" : {
+               "lat" : 43.2994285,
+               "lng" : -74.21793260000001
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 45.0156269,
+                  "lng" : -71.85626429999999
+               },
+               "southwest" : {
+                  "lat" : 40.4960191,
+                  "lng" : -79.76214379999999
+               }
+            }
+         },
+         "types" : [ "administrative_area_level_1", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "United States",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 90,
+                  "lng" : 180
+               },
+               "southwest" : {
+                  "lat" : -90,
+                  "lng" : -180
+               }
+            },
+            "location" : {
+               "lat" : 37.09024,
+               "lng" : -95.712891
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 49.38,
+                  "lng" : -66.94
+               },
+               "southwest" : {
+                  "lat" : 25.82,
+                  "lng" : -124.39
+               }
+            }
+         },
+         "types" : [ "country", "political" ]
+      }
+   ],
+   "status" : "OK"
+}

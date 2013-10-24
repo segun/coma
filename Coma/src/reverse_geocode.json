@@ -1,0 +1,641 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "277",
+               "short_name" : "277",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "Bedford Avenue",
+               "short_name" : "Bedford Ave",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Williamsburg",
+               "short_name" : "Williamsburg",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Brooklyn",
+               "short_name" : "Brooklyn",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "Kings",
+               "short_name" : "Kings",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "11211",
+               "short_name" : "11211",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "277 Bedford Avenue, Brooklyn, NY 11211, USA",
+         "geometry" : {
+            "location" : {
+               "lat" : 40.714232,
+               "lng" : -73.9612889
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.7155809802915,
+                  "lng" : -73.9599399197085
+               },
+               "southwest" : {
+                  "lat" : 40.7128830197085,
+                  "lng" : -73.96263788029151
+               }
+            }
+         },
+         "types" : [ "street_address" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Grand St/Bedford Av",
+               "short_name" : "Grand St/Bedford Av",
+               "types" : [ "bus_station", "transit_station", "establishment" ]
+            },
+            {
+               "long_name" : "Williamsburg",
+               "short_name" : "Williamsburg",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Brooklyn",
+               "short_name" : "Brooklyn",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "Kings",
+               "short_name" : "Kings",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "11211",
+               "short_name" : "11211",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Grand St/Bedford Av, Brooklyn, NY 11211, USA",
+         "geometry" : {
+            "location" : {
+               "lat" : 40.714321,
+               "lng" : -73.961151
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.71566998029149,
+                  "lng" : -73.95980201970849
+               },
+               "southwest" : {
+                  "lat" : 40.7129720197085,
+                  "lng" : -73.96249998029151
+               }
+            }
+         },
+         "types" : [ "bus_station", "transit_station", "establishment" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Grand St/Bedford Av",
+               "short_name" : "Grand St/Bedford Av",
+               "types" : [ "bus_station", "transit_station", "establishment" ]
+            },
+            {
+               "long_name" : "Williamsburg",
+               "short_name" : "Williamsburg",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Brooklyn",
+               "short_name" : "Brooklyn",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "Kings",
+               "short_name" : "Kings",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "11249",
+               "short_name" : "11249",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Grand St/Bedford Av, Brooklyn, NY 11249, USA",
+         "geometry" : {
+            "location" : {
+               "lat" : 40.714684,
+               "lng" : -73.961563
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.71603298029149,
+                  "lng" : -73.9602140197085
+               },
+               "southwest" : {
+                  "lat" : 40.7133350197085,
+                  "lng" : -73.96291198029151
+               }
+            }
+         },
+         "types" : [ "bus_station", "transit_station", "establishment" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Bedford Av/Grand St",
+               "short_name" : "Bedford Av/Grand St",
+               "types" : [ "bus_station", "transit_station", "establishment" ]
+            },
+            {
+               "long_name" : "Williamsburg",
+               "short_name" : "Williamsburg",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Brooklyn",
+               "short_name" : "Brooklyn",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "Kings",
+               "short_name" : "Kings",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "11211",
+               "short_name" : "11211",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Bedford Av/Grand St, Brooklyn, NY 11211, USA",
+         "geometry" : {
+            "location" : {
+               "lat" : 40.71471,
+               "lng" : -73.960999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.7160589802915,
+                  "lng" : -73.95965001970849
+               },
+               "southwest" : {
+                  "lat" : 40.7133610197085,
+                  "lng" : -73.9623479802915
+               }
+            }
+         },
+         "types" : [ "bus_station", "transit_station", "establishment" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "11211",
+               "short_name" : "11211",
+               "types" : [ "postal_code" ]
+            },
+            {
+               "long_name" : "Brooklyn",
+               "short_name" : "Brooklyn",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Brooklyn, NY 11211, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.7280089,
+                  "lng" : -73.9207299
+               },
+               "southwest" : {
+                  "lat" : 40.7008331,
+                  "lng" : -73.9644697
+               }
+            },
+            "location" : {
+               "lat" : 40.7093358,
+               "lng" : -73.9565551
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.7280089,
+                  "lng" : -73.9207299
+               },
+               "southwest" : {
+                  "lat" : 40.7008331,
+                  "lng" : -73.9644697
+               }
+            }
+         },
+         "types" : [ "postal_code" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Williamsburg",
+               "short_name" : "Williamsburg",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Brooklyn",
+               "short_name" : "Brooklyn",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Kings",
+               "short_name" : "Kings",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Williamsburg, Brooklyn, NY, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.7251773,
+                  "lng" : -73.936498
+               },
+               "southwest" : {
+                  "lat" : 40.6979329,
+                  "lng" : -73.96984499999999
+               }
+            },
+            "location" : {
+               "lat" : 40.7064461,
+               "lng" : -73.95361629999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.7251773,
+                  "lng" : -73.936498
+               },
+               "southwest" : {
+                  "lat" : 40.6979329,
+                  "lng" : -73.96984499999999
+               }
+            }
+         },
+         "types" : [ "neighborhood", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Kings",
+               "short_name" : "Kings",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Kings, NY, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.739446,
+                  "lng" : -73.83336509999999
+               },
+               "southwest" : {
+                  "lat" : 40.5695637,
+                  "lng" : -74.0429503
+               }
+            },
+            "location" : {
+               "lat" : 40.6528762,
+               "lng" : -73.95949399999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.739446,
+                  "lng" : -73.83336509999999
+               },
+               "southwest" : {
+                  "lat" : 40.5695637,
+                  "lng" : -74.0429503
+               }
+            }
+         },
+         "types" : [ "administrative_area_level_2", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Brooklyn",
+               "short_name" : "Brooklyn",
+               "types" : [ "sublocality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Kings",
+               "short_name" : "Kings",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Brooklyn, NY, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.739446,
+                  "lng" : -73.83336509999999
+               },
+               "southwest" : {
+                  "lat" : 40.551042,
+                  "lng" : -74.05663
+               }
+            },
+            "location" : {
+               "lat" : 40.65,
+               "lng" : -73.95
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.739446,
+                  "lng" : -73.83336509999999
+               },
+               "southwest" : {
+                  "lat" : 40.551042,
+                  "lng" : -74.05663
+               }
+            }
+         },
+         "types" : [ "sublocality", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "New York",
+               "short_name" : "New York",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "New York, NY, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.91525559999999,
+                  "lng" : -73.70027209999999
+               },
+               "southwest" : {
+                  "lat" : 40.4959961,
+                  "lng" : -74.2590879
+               }
+            },
+            "location" : {
+               "lat" : 40.7143528,
+               "lng" : -74.00597309999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.91525559999999,
+                  "lng" : -73.70027209999999
+               },
+               "southwest" : {
+                  "lat" : 40.496006,
+                  "lng" : -74.25573489999999
+               }
+            }
+         },
+         "types" : [ "locality", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "????????????????????????????????",
+               "short_name" : "????????????????????????????????",
+               "types" : [ "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "United States, ????????????????????????????????",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 41.6018065,
+                  "lng" : -71.85621399999999
+               },
+               "southwest" : {
+                  "lat" : 39.49853299999999,
+                  "lng" : -75.3585939
+               }
+            },
+            "location" : {
+               "lat" : 40.9590293,
+               "lng" : -74.0300122
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 41.6018065,
+                  "lng" : -71.85621399999999
+               },
+               "southwest" : {
+                  "lat" : 39.49853299999999,
+                  "lng" : -75.3585939
+               }
+            }
+         },
+         "types" : [ "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "New York",
+               "short_name" : "NY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "New York, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 45.015865,
+                  "lng" : -71.85626429999999
+               },
+               "southwest" : {
+                  "lat" : 40.4959961,
+                  "lng" : -79.76214379999999
+               }
+            },
+            "location" : {
+               "lat" : 43.2994285,
+               "lng" : -74.21793260000001
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 45.0156269,
+                  "lng" : -71.85626429999999
+               },
+               "southwest" : {
+                  "lat" : 40.4960191,
+                  "lng" : -79.76214379999999
+               }
+            }
+         },
+         "types" : [ "administrative_area_level_1", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "United States",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 90,
+                  "lng" : 180
+               },
+               "southwest" : {
+                  "lat" : -90,
+                  "lng" : -180
+               }
+            },
+            "location" : {
+               "lat" : 37.09024,
+               "lng" : -95.712891
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 49.38,
+                  "lng" : -66.94
+               },
+               "southwest" : {
+                  "lat" : 25.82,
+                  "lng" : -124.39
+               }
+            }
+         },
+         "types" : [ "country", "political" ]
+      }
+   ],
+   "status" : "OK"
+}
