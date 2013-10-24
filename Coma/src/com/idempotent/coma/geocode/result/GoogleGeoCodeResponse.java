@@ -4,6 +4,7 @@
  */
 package com.idempotent.coma.geocode.result;
 
+import com.codename1.processing.Result;
 import java.util.List;
 
 /**
@@ -16,6 +17,11 @@ public class GoogleGeoCodeResponse {
     private  Geometry geometry;
     private  String formattedAddress;
     private  List<AddressComponent> addressComponents;
+    
+    /**
+     * Contains the full raw response from the api call
+     */
+    private Result raw;
     
     public String getStatus() {
         return status;
@@ -55,5 +61,13 @@ public class GoogleGeoCodeResponse {
 
     public void setAddressComponents(List<AddressComponent> addressComponents) {
         this.addressComponents = addressComponents;
-    }        
+    }  
+
+    public Result getRaw() {
+        return raw;
+    }
+
+    public void setRaw(Result raw) {
+        this.raw = raw;
+    }    
 }

@@ -89,7 +89,7 @@ public class Coma {
      * @see com.idempotent.coma.geocode.result.GoogleGeoCodeResponse
      */
     public void geocode(String street, String stateOrProvince, String country, String latlng, boolean doReverse, final CallNext callNext, String otherParameters) {
-        String countryCode = "NG";
+        String countryCodes = "NG";
 
         String query = "";
         if (doReverse) {
@@ -102,12 +102,12 @@ public class Coma {
                 query = "&latlng=" + Util.encodeUrl(latlng);
             }
         } else {
-            countryCode = countryCodes.getCountryCodes();
+            countryCodes = getCountryCodes().getCountryCodes();
 
             query = "address=" + Util.encodeUrl(street + ", " + stateOrProvince);
 
-            if (!countryCode.equals("")) {
-                query += "&components=country:" + countryCode;
+            if (!countryCodes.equals("")) {
+                query += "&components=country:" + countryCodes;
             }
         }
 
@@ -144,8 +144,8 @@ public class Coma {
                 JSONParser parser = new JSONParser();
                 Hashtable result = parser.parse(new InputStreamReader(input));
                 Result res = Result.fromContent(result);
-                parse(res);
-                callNext.onSuccess(res);
+                List<GoogleGeoCodeResponse> responses = parse(res);
+                callNext.onSuccess(responses);
             }
         };
 
@@ -153,7 +153,7 @@ public class Coma {
         request.setPost(false);
         request.setDuplicateSupported(false);
 
-        networkManager.addToQueue(request);
+        getNetworkManager().addToQueue(request);
     }
 
     public List<GoogleGeoCodeResponse> parse(Result result) {
@@ -165,7 +165,8 @@ public class Coma {
         for (int rs = 0; rs < size; rs++) {
             GoogleGeoCodeResponse googleGeoCodeResponse = new GoogleGeoCodeResponse();
             googleGeoCodeResponse.setStatus(result.getAsString("status"));
-            googleGeoCodeResponse.setFormattedAddress(result.getAsString("results[" + rs + "]/formatted_address"));
+            googleGeoCodeResponse.setFormattedAddress(result.getAsString("results[" + rs + "]/formatted_address"));           
+            googleGeoCodeResponse.setRaw(result);
 
             List<AddressComponent> addressComponents = new ArrayList<AddressComponent>();
             int addressComponentsSize = result.getSizeOfArray("results[" + rs + "]/address_components");
