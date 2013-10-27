@@ -9,12 +9,21 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkManager;
 import com.codename1.io.Util;
 import com.codename1.location.Location;
+import com.codename1.maps.Coord;
 import com.codename1.processing.Result;
 import com.idempotent.coma.callback.CallNext;
 import com.idempotent.coma.geocode.result.AddressComponent;
 import com.idempotent.coma.geocode.result.Bounds;
+import com.idempotent.coma.geocode.result.Distance;
+import com.idempotent.coma.geocode.result.Duration;
 import com.idempotent.coma.geocode.result.Geometry;
-import com.idempotent.coma.geocode.result.GoogleGeoCodeResponse;
+import com.idempotent.coma.geocode.result.GoogleDirectionResult;
+import com.idempotent.coma.geocode.result.GoogleGeocodeResult;
+import com.idempotent.coma.geocode.result.Leg;
+import com.idempotent.coma.geocode.result.Polyline;
+import com.idempotent.coma.geocode.result.SingleResult;
+import com.idempotent.coma.geocode.result.SingleRoute;
+import com.idempotent.coma.geocode.result.Step;
 import com.idempotent.coma.geocode.result.ViewPort;
 import com.idempotent.coma.urlhelper.URLConstants;
 import java.io.IOException;
@@ -69,27 +78,27 @@ public class Coma {
     }
 
     /**
-     * This method can do noth geocoding and reverse geocoding. To do a reverse
-     * geocoding, set all variable to null except latlng and doReverse To do
-     * geocoding, fill in all variables except latlng onError, CallNext.onError
-     * is called and a HashMap is passed in. The HashMap contains two keys, code
-     * and value onSuccess, CallNext.onSuccess is called and the response from
-     * the geocode/reverse geocode call is passed. The response is a List of
-     * GoogleGeoCodeResponse objects
+     * This method can do noth geocoding and reverse geocoding. <br>To do a
+     * reverse geocoding, set all variable to null except latlng and doReverse.
+     * <br>To do geocoding, fill in all variables except latlng
      *
      * @param street
      * @param stateOrProvince
      * @param country
      * @param latlng
      * @param doReverse
-     * @param callNext
+     * @param callNext onError, CallNext.onError() is called and a HashMap is
+     * passed in. <br>The HashMap contains two keys, code and value.
+     * <br>onSuccess, CallNext.onSuccess is called and the response from the
+     * geocode/reverse geocode call is passed. The response is a
+     * GoogleGeoCodeResult object.
      * @param otherParameters - The api takes lots of other parameters that can
      * help you streamline the result. Pass the other parameters here e.g
      * region=es
-     * @see com.idempotent.coma.geocode.result.GoogleGeoCodeResponse
+     * @see com.idempotent.coma.geocode.result.GeoCodeResult
      */
     public void geocode(String street, String stateOrProvince, String country, String latlng, boolean doReverse, final CallNext callNext, String otherParameters) {
-        String countryCodes = "NG";
+        String countryCodesString = "NG";
 
         String query = "";
         if (doReverse) {
@@ -102,18 +111,20 @@ public class Coma {
                 query = "&latlng=" + Util.encodeUrl(latlng);
             }
         } else {
-            countryCodes = getCountryCodes().getCountryCodes();
+            countryCodesString = getCountryCodes().getCountryCodes();
 
             query = "address=" + Util.encodeUrl(street + ", " + stateOrProvince);
 
-            if (!countryCodes.equals("")) {
-                query += "&components=country:" + countryCodes;
+            if (!countryCodesString.equals("")) {
+                query += "&components=country:" + countryCodesString;
             }
         }
 
         if (otherParameters != null) {
             if (otherParameters.indexOf("&") == 0) {
                 query += otherParameters;
+            } else {
+                query += "&" + otherParameters;
             }
         }
 
@@ -144,8 +155,8 @@ public class Coma {
                 JSONParser parser = new JSONParser();
                 Hashtable result = parser.parse(new InputStreamReader(input));
                 Result res = Result.fromContent(result);
-                List<GoogleGeoCodeResponse> responses = parse(res);
-                callNext.onSuccess(responses);
+                GoogleGeocodeResult geocodeResult = parseGeoCodeResult(res);
+                callNext.onSuccess(geocodeResult);
             }
         };
 
@@ -156,17 +167,20 @@ public class Coma {
         getNetworkManager().addToQueue(request);
     }
 
-    public List<GoogleGeoCodeResponse> parse(Result result) {
+    public GoogleGeocodeResult parseGeoCodeResult(Result result) {
 
-        List<GoogleGeoCodeResponse> responses = new ArrayList<GoogleGeoCodeResponse>();
+        GoogleGeocodeResult geocodeResult = new GoogleGeocodeResult();
+        geocodeResult.setStatus(result.getAsString("status"));
+        geocodeResult.setRaw(result);
+
+        List<SingleResult> allResults = new ArrayList<SingleResult>();
 
         int size = result.getSizeOfArray("results");
 
         for (int rs = 0; rs < size; rs++) {
-            GoogleGeoCodeResponse googleGeoCodeResponse = new GoogleGeoCodeResponse();
-            googleGeoCodeResponse.setStatus(result.getAsString("status"));
-            googleGeoCodeResponse.setFormattedAddress(result.getAsString("results[" + rs + "]/formatted_address"));           
-            googleGeoCodeResponse.setRaw(result);
+            SingleResult singleResult = new SingleResult();
+
+            singleResult.setFormattedAddress(result.getAsString("results[" + rs + "]/formatted_address"));
 
             List<AddressComponent> addressComponents = new ArrayList<AddressComponent>();
             int addressComponentsSize = result.getSizeOfArray("results[" + rs + "]/address_components");
@@ -178,10 +192,11 @@ public class Coma {
 
                 addressComponent.setType(result.getAsString("results[" + rs + "]/address_components[" + i + "]/types"));
 
+                System.out.println("TYPE: " + addressComponent.getType());
                 addressComponents.add(addressComponent);
             }
 
-            googleGeoCodeResponse.setAddressComponents(addressComponents);
+            singleResult.setAddressComponents(addressComponents);
 
             Geometry geometry = new Geometry();
 
@@ -200,7 +215,7 @@ public class Coma {
             viewPort.setNorthEast(vpNorthEastLocation);
             viewPort.setSouthWest(vpSouthWestLocation);
             geometry.setViewPort(viewPort);
-            
+
             Bounds bounds = new Bounds();
             Location bNorthEastLocation = new Location(), bSouthWestLocation = new Location();
             bNorthEastLocation.setLatitude(result.getAsDouble("results[" + rs + "]/geometry/bounds/northeast/lat"));
@@ -209,14 +224,215 @@ public class Coma {
             bSouthWestLocation.setLongitude(result.getAsDouble("results[" + rs + "]/geometry/bounds/southwest/lng"));
             bounds.setNorthEast(bNorthEastLocation);
             bounds.setSouthWest(bSouthWestLocation);
-            geometry.setBounds(bounds);            
+            geometry.setBounds(bounds);
 
-            googleGeoCodeResponse.setGeometry(geometry);
-            
-            googleGeoCodeResponse.setType(result.getAsString("results[" + rs + "]/types"));
+            singleResult.setGeometry(geometry);
 
-            responses.add(googleGeoCodeResponse);
+            singleResult.setType(result.getAsString("results[" + rs + "]/types"));
+
+            allResults.add(singleResult);
         }
-        return responses;
+
+        geocodeResult.setResults(allResults);
+        return geocodeResult;
+    }
+
+    public void getDirections(String from, String to, String how, boolean avoidTolls, boolean avoidHighways, String otherParameters, final CallNext callNext) {
+
+        String url = URLConstants.DIRECTIONS_API_URL;
+
+        ConnectionRequest request = new ConnectionRequest() {
+            @Override
+            protected void handleErrorResponseCode(int code, String message) {
+                HashMap<String, String> errorMap = new HashMap<String, String>();
+                errorMap.put("code", code + "");
+                errorMap.put("message", message);
+                callNext.onError(errorMap);
+            }
+
+            @Override
+            protected void handleException(Exception err) {
+                HashMap<String, String> errorMap = new HashMap<String, String>();
+                errorMap.put("code", 500 + "");
+                errorMap.put("message", "Exception: " + err.getMessage());
+                err.printStackTrace();
+                callNext.onError(errorMap);
+            }
+
+            @Override
+            protected void readResponse(InputStream input) throws IOException {
+                Result res = Result.fromContent(input, Result.JSON);
+                GoogleDirectionResult directionResult = parseDirectionsResult(res);
+                callNext.onSuccess(directionResult);
+            }
+        };
+
+        String query = "origin=" + Util.encodeUrl(from) + "&destination=" + Util.encodeUrl(to) + "&mode=" + Util.encodeUrl(how);
+
+        if (avoidTolls) {
+            query += "&avoid=tolls";
+        }
+
+        if (avoidHighways) {
+            if (query.indexOf("avoid") >= 0) {
+                query += Util.encodeUrl("|") + "highways";
+            } else {
+                query += "&avoid=highways";
+            }
+        }
+
+        url += query;
+
+        if (otherParameters != null) {
+            if (otherParameters.indexOf("&") == 0) {
+                url += otherParameters;
+            } else {
+                url += "&" + otherParameters;
+            }
+        }
+
+        System.out.println(url);
+        request.setUrl(url);
+        request.setPost(false);
+        request.setDuplicateSupported(true);
+
+        getNetworkManager().addToQueue(request);
+    }
+
+    public GoogleDirectionResult parseDirectionsResult(Result result) {
+        GoogleDirectionResult directionResult = new GoogleDirectionResult();
+        directionResult.setStatus(result.getAsString("status"));
+        directionResult.setRaw(result);
+
+        List<SingleRoute> routes = new ArrayList<SingleRoute>();
+        int size = result.getSizeOfArray("routes");
+
+        for (int rs = 0; rs < size; rs++) {
+            SingleRoute singleRoute = new SingleRoute();
+
+            singleRoute.setCopyrights(result.getAsString("routes[" + rs + "]/copyrights"));
+            singleRoute.setSummary(result.getAsString("routes[" + rs + "]/summary"));
+            Polyline overviewPolyline = new Polyline();
+            overviewPolyline.setPoints(result.getAsString("routes[" + rs + "]/overview_polyline"));
+            singleRoute.setOverviewPolyline(overviewPolyline);
+            singleRoute.setDecodedPolyline(decodePolyLine(overviewPolyline.getPoints()));
+
+            Bounds bounds = new Bounds();
+            Location bNorthEastLocation = new Location(), bSouthWestLocation = new Location();
+            bNorthEastLocation.setLatitude(result.getAsDouble("routes[" + rs + "]/bounds/northeast/lat"));
+            bNorthEastLocation.setLongitude(result.getAsDouble("routes[" + rs + "]/bounds/northeast/lng"));
+            bSouthWestLocation.setLatitude(result.getAsDouble("routes[" + rs + "]/bounds/southwest/lat"));
+            bSouthWestLocation.setLongitude(result.getAsDouble("routes[" + rs + "]/bounds/southwest/lng"));
+            bounds.setNorthEast(bNorthEastLocation);
+            bounds.setSouthWest(bSouthWestLocation);
+            singleRoute.setBounds(bounds);
+
+            List<Leg> legs = new ArrayList<Leg>();
+            int legsSize = result.getSizeOfArray("routes[" + rs + "]/legs");
+
+            for (int li = 0; li < legsSize; li++) {
+                Leg leg = new Leg();
+                leg.setEndAddress(result.getAsString("routes[" + rs + "]/legs[" + li + "]/end_address"));
+                leg.setStartAddress(result.getAsString("routes[" + rs + "]/legs[" + li + "]/start_address"));
+
+                Location startLocation = new Location(), endLocation = new Location();
+                startLocation.setLatitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/start_location/lat"));
+                endLocation.setLatitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/end_location/lat"));
+                startLocation.setLongitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/start_location/lng"));
+                endLocation.setLongitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/end_location/lng"));
+
+                leg.setStartLocation(startLocation);
+                leg.setEndLocation(endLocation);
+
+                Distance distance = new Distance();
+                distance.setText(result.getAsString("routes[" + rs + "]/legs[" + li + "]/distance/text"));
+                distance.setValue(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/distance/value"));
+                leg.setDistance(distance);
+
+                Duration duration = new Duration();
+                duration.setText(result.getAsString("routes[" + rs + "]/legs[" + li + "]/duration/text"));
+                duration.setValue(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/duration/value"));
+                leg.setDuration(duration);
+
+                List<Step> steps = new ArrayList<Step>();
+
+                int stepsSize = result.getSizeOfArray("routes[" + rs + "]/legs[" + li + "]/steps");
+
+                for (int ss = 0; ss < stepsSize; ss++) {
+                    Step step = new Step();
+                    Distance stepDistance = new Distance();
+                    stepDistance.setText(result.getAsString("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/distance/text"));
+                    stepDistance.setValue(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/distance/value"));
+                    step.setDistance(stepDistance);
+
+                    Duration stepDuration = new Duration();
+                    stepDuration.setText(result.getAsString("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/duration/text"));
+                    stepDuration.setValue(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/duration/value"));
+                    step.setDuration(stepDuration);
+
+                    Location stepStartLoc = new Location(), stepEndLoc = new Location();
+                    stepStartLoc.setLatitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/start_location/lat"));
+                    stepEndLoc.setLatitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/end_location/lat"));
+                    stepStartLoc.setLongitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/start_location/lng"));
+                    stepEndLoc.setLongitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/end_location/lng"));
+
+                    step.setEndLocation(stepEndLoc);
+                    step.setStarLocation(stepStartLoc);
+
+                    step.setHtmlInstructions(result.getAsString("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/html_instructions"));
+
+                    Polyline polyline = new Polyline();
+                    polyline.setPoints(result.getAsString("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/polyline/points"));
+                    step.setPolyline(polyline);
+
+                    step.setTravelMode(result.getAsString("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/travel_mode"));
+
+                    steps.add(step);
+                }
+
+                leg.setSteps(steps);
+
+                legs.add(leg);
+            }
+
+            singleRoute.setLegs(legs);
+            
+            routes.add(singleRoute);
+        }
+        directionResult.setRoutes(routes);
+        return directionResult;
+    }
+
+    private List<Coord> decodePolyLine(String encoded) {
+        List<Coord> poly = new ArrayList<Coord>();
+        int index = 0, len = encoded.length();
+        int lat = 0, lng = 0;
+
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            Coord p = new Coord((double) lat / (double) 1E5, (double) lng / (double) 1E5);
+
+            poly.add(p);
+        }
+
+        return poly;
     }
 }
