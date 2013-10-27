@@ -9,7 +9,6 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkManager;
 import com.codename1.io.Util;
 import com.codename1.location.Location;
-import com.codename1.maps.Coord;
 import com.codename1.processing.Result;
 import com.idempotent.coma.callback.CallNext;
 import com.idempotent.coma.geocode.result.AddressComponent;
@@ -315,7 +314,7 @@ public class Coma {
             Polyline overviewPolyline = new Polyline();
             overviewPolyline.setPoints(result.getAsString("routes[" + rs + "]/overview_polyline"));
             singleRoute.setOverviewPolyline(overviewPolyline);
-            singleRoute.setDecodedPolyline(decodePolyLine(overviewPolyline.getPoints()));
+            singleRoute.setDecodedPolyline(overviewPolyline.decode());
 
             Bounds bounds = new Bounds();
             Location bNorthEastLocation = new Location(), bSouthWestLocation = new Location();
@@ -401,38 +400,5 @@ public class Coma {
         }
         directionResult.setRoutes(routes);
         return directionResult;
-    }
-
-    private List<Coord> decodePolyLine(String encoded) {
-        List<Coord> poly = new ArrayList<Coord>();
-        int index = 0, len = encoded.length();
-        int lat = 0, lng = 0;
-
-        while (index < len) {
-            int b, shift = 0, result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lat += dlat;
-
-            shift = 0;
-            result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lng += dlng;
-
-            Coord p = new Coord((double) lat / (double) 1E5, (double) lng / (double) 1E5);
-
-            poly.add(p);
-        }
-
-        return poly;
     }
 }
