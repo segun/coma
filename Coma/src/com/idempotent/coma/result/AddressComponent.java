@@ -13,7 +13,7 @@ import java.util.List;
 public class AddressComponent {
     private  String longName;
     private  String shortName;
-    private  String types;
+    private  String[] types;
 
     public String getLongName() {
         return longName;
@@ -31,12 +31,11 @@ public class AddressComponent {
         this.shortName = shortName;
     }
 
-    public String getType() {
+    public String[] getTypes() {
         return types;
     }
 
-    public void setType(String type) {
-        this.types = type;
-    }
-
+    public void setTypes(String[] types) {
+        this.types = types;
+    }    
 }

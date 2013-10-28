@@ -11,27 +11,23 @@ import java.util.List;
  * @author aardvocate
  */
 public class SingleResult {
-    private String type;
+    private String[] types;
     private  Geometry geometry;
     private  String formattedAddress;
-    private  List<AddressComponent> addressComponents;
-    
-    /**
-     * Contains the full raw response from the api call
-     */    
-    
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+    private  List<AddressComponent> addressComponents;  
 
     public Geometry getGeometry() {
         return geometry;
     }
 
+    public String[] getTypes() {
+        return types;
+    }
+
+    public void setTypes(String[] types) {
+        this.types = types;
+    }
+        
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
     }

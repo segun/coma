@@ -4,34 +4,11 @@
  */
 package com.idempotent.coma;
 
-import com.codename1.io.ConnectionRequest;
-import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkManager;
-import com.codename1.io.Util;
 import com.codename1.location.Location;
-import com.codename1.processing.Result;
 import com.idempotent.coma.callback.CallNext;
-import com.idempotent.coma.result.AddressComponent;
-import com.idempotent.coma.result.Bounds;
-import com.idempotent.coma.result.Distance;
-import com.idempotent.coma.result.Duration;
-import com.idempotent.coma.result.Geometry;
 import com.idempotent.coma.result.GoogleDirectionResult;
 import com.idempotent.coma.result.GoogleGeocodeResult;
-import com.idempotent.coma.result.Leg;
-import com.idempotent.coma.result.Polyline;
-import com.idempotent.coma.result.SingleResult;
-import com.idempotent.coma.result.SingleRoute;
-import com.idempotent.coma.result.Step;
-import com.idempotent.coma.result.ViewPort;
-import com.idempotent.coma.urlhelper.URLConstants;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
 
 /**
  *
@@ -96,155 +73,13 @@ public class Coma {
      * region=es
      * @see com.idempotent.coma.result.GoogleGeocodeResult
      */
-    public void geocode(String street, String stateOrProvince, String country, String latlng, boolean doReverse, final CallNext callNext, String... otherParameters) {
-        String countryCodesString = "NG";
-
-        String query = "";
-        if (doReverse) {
-            if (latlng == null) {
-                HashMap<String, String> errorMap = new HashMap<String, String>();
-                errorMap.put("code", 500 + "");
-                errorMap.put("message", "LatLng Variable can not be null if doReverse is set to true");
-                callNext.onError(errorMap);
-            } else {
-                query = "&latlng=" + Util.encodeUrl(latlng);
-            }
-        } else {
-            countryCodesString = getCountryCodes().getCountryCodes();
-
-            query = "address=" + Util.encodeUrl(street + ", " + stateOrProvince);
-
-            if (!countryCodesString.equals("")) {
-                query += "&components=country:" + countryCodesString;
-            }
-        }
-
-        if (otherParameters != null) {
-            for (String otherParam : otherParameters) {
-                if (otherParam.indexOf("&") == 0) {
-                    query += otherParam;
-                } else {
-                    query += "&" + otherParam;
-                }
-            }
-        }
-        
-        String url = URLConstants.GEOCODE_API_URL + query;
-
-        System.out.println(url);
-
-        ConnectionRequest request = new ConnectionRequest() {
-            @Override
-            protected void handleErrorResponseCode(int code, String message) {
-                HashMap<String, String> errorMap = new HashMap<String, String>();
-                errorMap.put("code", code + "");
-                errorMap.put("message", message);
-                callNext.onError(errorMap);
-            }
-
-            @Override
-            protected void handleException(Exception err) {
-                HashMap<String, String> errorMap = new HashMap<String, String>();
-                errorMap.put("code", 500 + "");
-                errorMap.put("message", "Exception: " + err.getMessage());
-                err.printStackTrace();
-                callNext.onError(errorMap);
-            }
-
-            @Override
-            protected void readResponse(InputStream input) throws IOException {
-                JSONParser parser = new JSONParser();
-                Hashtable result = parser.parse(new InputStreamReader(input));
-                Result res = Result.fromContent(result);
-                GoogleGeocodeResult geocodeResult = parseGeoCodeResult(res);
-                callNext.onSuccess(geocodeResult);
-            }
-        };
-
-        request.setUrl(url);
-        request.setPost(false);
-        request.setDuplicateSupported(false);
-
-        getNetworkManager().addToQueue(request);
+    public void geocode(String street, String stateOrProvince, String country, Location location, boolean doReverse, final CallNext callNext, String... otherParameters) {
+        Geocode geocode = new Geocode(this);
+        geocode.geocode(street, stateOrProvince, country, location, doReverse, callNext, otherParameters);
     }
 
     /**
-     * This method is only public so that it can be tested. It is used internally
-     * @param result
-     * @return 
-     */
-    public GoogleGeocodeResult parseGeoCodeResult(Result result) {
-
-        GoogleGeocodeResult geocodeResult = new GoogleGeocodeResult();
-        geocodeResult.setStatus(result.getAsString("status"));
-        geocodeResult.setRaw(result);
-
-        List<SingleResult> allResults = new ArrayList<SingleResult>();
-
-        int size = result.getSizeOfArray("results");
-
-        for (int rs = 0; rs < size; rs++) {
-            SingleResult singleResult = new SingleResult();
-
-            singleResult.setFormattedAddress(result.getAsString("results[" + rs + "]/formatted_address"));
-
-            List<AddressComponent> addressComponents = new ArrayList<AddressComponent>();
-            int addressComponentsSize = result.getSizeOfArray("results[" + rs + "]/address_components");
-
-            for (int i = 0; i < addressComponentsSize; i++) {
-                AddressComponent addressComponent = new AddressComponent();
-                addressComponent.setLongName(result.getAsString("results[" + rs + "]/address_components[" + i + "]/long_name"));
-                addressComponent.setShortName(result.getAsString("results[" + rs + "]/address_components[" + i + "]/short_name"));
-
-                addressComponent.setType(result.getAsString("results[" + rs + "]/address_components[" + i + "]/types"));
-
-                System.out.println("TYPE: " + addressComponent.getType());
-                addressComponents.add(addressComponent);
-            }
-
-            singleResult.setAddressComponents(addressComponents);
-
-            Geometry geometry = new Geometry();
-
-            Location location = new Location();
-            location.setLatitude(result.getAsDouble("results[" + rs + "]/geometry/location/lat"));
-            location.setLongitude(result.getAsDouble("results[" + rs + "]/geometry/location/lng"));
-            geometry.setLocation(location);
-            geometry.setLocationType(result.getAsString("results[" + rs + "]/geometry/location_type"));
-
-            ViewPort viewPort = new ViewPort();
-            Location vpNorthEastLocation = new Location(), vpSouthWestLocation = new Location();
-            vpNorthEastLocation.setLatitude(result.getAsDouble("results[" + rs + "]/geometry/viewport/northeast/lat"));
-            vpNorthEastLocation.setLongitude(result.getAsDouble("results[" + rs + "]/geometry/viewport/northeast/lng"));
-            vpSouthWestLocation.setLatitude(result.getAsDouble("results[" + rs + "]/geometry/viewport/southwest/lat"));
-            vpSouthWestLocation.setLongitude(result.getAsDouble("results[" + rs + "]/geometry/viewport/southwest/lng"));
-            viewPort.setNorthEast(vpNorthEastLocation);
-            viewPort.setSouthWest(vpSouthWestLocation);
-            geometry.setViewPort(viewPort);
-
-            Bounds bounds = new Bounds();
-            Location bNorthEastLocation = new Location(), bSouthWestLocation = new Location();
-            bNorthEastLocation.setLatitude(result.getAsDouble("results[" + rs + "]/geometry/bounds/northeast/lat"));
-            bNorthEastLocation.setLongitude(result.getAsDouble("results[" + rs + "]/geometry/bounds/northeast/lng"));
-            bSouthWestLocation.setLatitude(result.getAsDouble("results[" + rs + "]/geometry/bounds/southwest/lat"));
-            bSouthWestLocation.setLongitude(result.getAsDouble("results[" + rs + "]/geometry/bounds/southwest/lng"));
-            bounds.setNorthEast(bNorthEastLocation);
-            bounds.setSouthWest(bSouthWestLocation);
-            geometry.setBounds(bounds);
-
-            singleResult.setGeometry(geometry);
-
-            singleResult.setType(result.getAsString("results[" + rs + "]/types"));
-
-            allResults.add(singleResult);
-        }
-
-        geocodeResult.setResults(allResults);
-        return geocodeResult;
-    }
-
-    /**
-     * 
+     *
      * @param from
      * @param to
      * @param how
@@ -261,175 +96,27 @@ public class Coma {
      * @see com.idempotent.coma.result.GoogleDirectionResult
      */
     public void getDirections(String from, String to, String how, boolean avoidTolls, boolean avoidHighways, final CallNext callNext, String... otherParameters) {
-
-        String url = URLConstants.DIRECTIONS_API_URL;
-
-        ConnectionRequest request = new ConnectionRequest() {
-            @Override
-            protected void handleErrorResponseCode(int code, String message) {
-                HashMap<String, String> errorMap = new HashMap<String, String>();
-                errorMap.put("code", code + "");
-                errorMap.put("message", message);
-                callNext.onError(errorMap);
-            }
-
-            @Override
-            protected void handleException(Exception err) {
-                HashMap<String, String> errorMap = new HashMap<String, String>();
-                errorMap.put("code", 500 + "");
-                errorMap.put("message", "Exception: " + err.getMessage());
-                err.printStackTrace();
-                callNext.onError(errorMap);
-            }
-
-            @Override
-            protected void readResponse(InputStream input) throws IOException {
-                Result res = Result.fromContent(input, Result.JSON);
-                GoogleDirectionResult directionResult = parseDirectionsResult(res);
-                callNext.onSuccess(directionResult);
-            }
-        };
-
-        String query = "origin=" + Util.encodeUrl(from) + "&destination=" + Util.encodeUrl(to) + "&mode=" + Util.encodeUrl(how);
-
-        if (avoidTolls) {
-            query += "&avoid=tolls";
-        }
-
-        if (avoidHighways) {
-            if (query.indexOf("avoid") >= 0) {
-                query += Util.encodeUrl("|") + "highways";
-            } else {
-                query += "&avoid=highways";
-            }
-        }
-
-        url += query;
-
-        if (otherParameters != null) {
-            for (String otherParam : otherParameters) {
-                if (otherParam.indexOf("&") == 0) {
-                    query += otherParam;
-                } else {
-                    query += "&" + otherParam;
-                }
-            }
-        }
-
-        System.out.println(url);
-        request.setUrl(url);
-        request.setPost(false);
-        request.setDuplicateSupported(true);
-
-        getNetworkManager().addToQueue(request);
+        Direction direction = new Direction(this);
+        direction.getDirections(from, to, how, avoidTolls, avoidHighways, callNext, otherParameters);
     }
 
-    /**
-     * This method is only public so that it can be tested. It is used internally
-     * @param result
-     * @return 
-     */
-    public GoogleDirectionResult parseDirectionsResult(Result result) {
-        GoogleDirectionResult directionResult = new GoogleDirectionResult();
-        directionResult.setStatus(result.getAsString("status"));
-        directionResult.setRaw(result);
+    public void getRadarSearch(String apiKey, Location location, int radius, final CallNext callNext, String... otherParameters) {
+        Places places = new Places(this, apiKey);
+        places.getRadarSearch(location, radius, callNext, otherParameters);
+    }
 
-        List<SingleRoute> routes = new ArrayList<SingleRoute>();
-        int size = result.getSizeOfArray("routes");
+    public void getTextSearch(String apiKey, String searchString, final CallNext callNext, String... otherParameters) {
+        Places places = new Places(this, apiKey);
+        places.getTextSearch(searchString, callNext, otherParameters);
+    }
 
-        for (int rs = 0; rs < size; rs++) {
-            SingleRoute singleRoute = new SingleRoute();
+    public void getNearby(String apiKey, Location location, int radius, final CallNext callNext, String... otherParameters) {
+        Places places = new Places(this, apiKey);
+        places.getNearby(location, radius, callNext, otherParameters);
+    }
 
-            singleRoute.setCopyrights(result.getAsString("routes[" + rs + "]/copyrights"));
-            singleRoute.setSummary(result.getAsString("routes[" + rs + "]/summary"));
-            Polyline overviewPolyline = new Polyline();
-            overviewPolyline.setPoints(result.getAsString("routes[" + rs + "]/overview_polyline"));
-            singleRoute.setOverviewPolyline(overviewPolyline);
-            singleRoute.setDecodedPolyline(overviewPolyline.decode());
-
-            Bounds bounds = new Bounds();
-            Location bNorthEastLocation = new Location(), bSouthWestLocation = new Location();
-            bNorthEastLocation.setLatitude(result.getAsDouble("routes[" + rs + "]/bounds/northeast/lat"));
-            bNorthEastLocation.setLongitude(result.getAsDouble("routes[" + rs + "]/bounds/northeast/lng"));
-            bSouthWestLocation.setLatitude(result.getAsDouble("routes[" + rs + "]/bounds/southwest/lat"));
-            bSouthWestLocation.setLongitude(result.getAsDouble("routes[" + rs + "]/bounds/southwest/lng"));
-            bounds.setNorthEast(bNorthEastLocation);
-            bounds.setSouthWest(bSouthWestLocation);
-            singleRoute.setBounds(bounds);
-
-            List<Leg> legs = new ArrayList<Leg>();
-            int legsSize = result.getSizeOfArray("routes[" + rs + "]/legs");
-
-            for (int li = 0; li < legsSize; li++) {
-                Leg leg = new Leg();
-                leg.setEndAddress(result.getAsString("routes[" + rs + "]/legs[" + li + "]/end_address"));
-                leg.setStartAddress(result.getAsString("routes[" + rs + "]/legs[" + li + "]/start_address"));
-
-                Location startLocation = new Location(), endLocation = new Location();
-                startLocation.setLatitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/start_location/lat"));
-                endLocation.setLatitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/end_location/lat"));
-                startLocation.setLongitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/start_location/lng"));
-                endLocation.setLongitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/end_location/lng"));
-
-                leg.setStartLocation(startLocation);
-                leg.setEndLocation(endLocation);
-
-                Distance distance = new Distance();
-                distance.setText(result.getAsString("routes[" + rs + "]/legs[" + li + "]/distance/text"));
-                distance.setValue(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/distance/value"));
-                leg.setDistance(distance);
-
-                Duration duration = new Duration();
-                duration.setText(result.getAsString("routes[" + rs + "]/legs[" + li + "]/duration/text"));
-                duration.setValue(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/duration/value"));
-                leg.setDuration(duration);
-
-                List<Step> steps = new ArrayList<Step>();
-
-                int stepsSize = result.getSizeOfArray("routes[" + rs + "]/legs[" + li + "]/steps");
-
-                for (int ss = 0; ss < stepsSize; ss++) {
-                    Step step = new Step();
-                    Distance stepDistance = new Distance();
-                    stepDistance.setText(result.getAsString("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/distance/text"));
-                    stepDistance.setValue(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/distance/value"));
-                    step.setDistance(stepDistance);
-
-                    Duration stepDuration = new Duration();
-                    stepDuration.setText(result.getAsString("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/duration/text"));
-                    stepDuration.setValue(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/duration/value"));
-                    step.setDuration(stepDuration);
-
-                    Location stepStartLoc = new Location(), stepEndLoc = new Location();
-                    stepStartLoc.setLatitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/start_location/lat"));
-                    stepEndLoc.setLatitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/end_location/lat"));
-                    stepStartLoc.setLongitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/start_location/lng"));
-                    stepEndLoc.setLongitude(result.getAsDouble("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/end_location/lng"));
-
-                    step.setEndLocation(stepEndLoc);
-                    step.setStarLocation(stepStartLoc);
-
-                    step.setHtmlInstructions(result.getAsString("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/html_instructions"));
-
-                    Polyline polyline = new Polyline();
-                    polyline.setPoints(result.getAsString("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/polyline/points"));
-                    step.setPolyline(polyline);
-
-                    step.setTravelMode(result.getAsString("routes[" + rs + "]/legs[" + li + "]/steps[" + ss + "]/travel_mode"));
-
-                    steps.add(step);
-                }
-
-                leg.setSteps(steps);
-
-                legs.add(leg);
-            }
-
-            singleRoute.setLegs(legs);
-
-            routes.add(singleRoute);
-        }
-        directionResult.setRoutes(routes);
-        return directionResult;
+    public void getNearby(String apiKey, Location location, int radius, Places.RankBy rankBy, final CallNext callNext, String... otherParameters) {
+        Places places = new Places(this, apiKey);
+        places.getNearby(location, radius, rankBy, callNext, otherParameters);
     }
 }
