@@ -13,7 +13,7 @@ import com.idempotent.coma.callback.CallNext;
 import com.idempotent.coma.result.Geometry;
 import com.idempotent.coma.result.OpeningHours;
 import com.idempotent.coma.result.Photo;
-import com.idempotent.coma.result.PlacesResult;
+import com.idempotent.coma.result.PlacesSearchResult;
 import com.idempotent.coma.result.SinglePlace;
 import com.idempotent.coma.urlhelper.URLConstants;
 import java.io.IOException;
@@ -25,12 +25,12 @@ import java.util.Hashtable;
 import java.util.List;
 
 /**
- * Please read https://developers.google.com/places/documentation/ before
+ * Please read https://developers.google.com/places/documentation/search before
  * proceeding to use the API
  *
  * @author aardvocate
  */
-public class Places {
+public class PlacesSearch {
 
     public enum RankBy {
 
@@ -39,7 +39,7 @@ public class Places {
     Coma coma;
     String apiKey;
 
-    public Places(Coma coma, String apiKey) {
+    public PlacesSearch(Coma coma, String apiKey) {
         this.coma = coma;
         this.apiKey = apiKey;
     }
@@ -133,8 +133,8 @@ public class Places {
         connect(url, callNext);
     }
 
-    public PlacesResult parsePlacesResult(Result result) {
-        PlacesResult placesResult = new PlacesResult();
+    public PlacesSearchResult parsePlacesResult(Result result) {
+        PlacesSearchResult placesResult = new PlacesSearchResult();
         placesResult.setHtmlAttributions(result.getAsStringArray("html_attributions"));
         placesResult.setStatus(result.getAsString("status"));
 
@@ -208,7 +208,7 @@ public class Places {
                 JSONParser parser = new JSONParser();
                 Hashtable result = parser.parse(new InputStreamReader(input));
                 Result res = Result.fromContent(result);
-                PlacesResult placesResult = parsePlacesResult(res);
+                PlacesSearchResult placesResult = parsePlacesResult(res);
                 callNext.onSuccess(placesResult);
 
             }

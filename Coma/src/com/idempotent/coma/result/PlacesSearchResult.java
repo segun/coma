@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author aardvocate
  */
-public class PlacesResult {
+public class PlacesSearchResult {
     private String[] htmlAttributions;
     private List<SinglePlace> results;
     private String status;

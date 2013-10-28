@@ -101,22 +101,22 @@ public class Coma {
     }
 
     public void getRadarSearch(String apiKey, Location location, int radius, final CallNext callNext, String... otherParameters) {
-        Places places = new Places(this, apiKey);
+        PlacesSearch places = new PlacesSearch(this, apiKey);
         places.getRadarSearch(location, radius, callNext, otherParameters);
     }
 
     public void getTextSearch(String apiKey, String searchString, final CallNext callNext, String... otherParameters) {
-        Places places = new Places(this, apiKey);
+        PlacesSearch places = new PlacesSearch(this, apiKey);
         places.getTextSearch(searchString, callNext, otherParameters);
     }
 
     public void getNearby(String apiKey, Location location, int radius, final CallNext callNext, String... otherParameters) {
-        Places places = new Places(this, apiKey);
+        PlacesSearch places = new PlacesSearch(this, apiKey);
         places.getNearby(location, radius, callNext, otherParameters);
     }
 
-    public void getNearby(String apiKey, Location location, int radius, Places.RankBy rankBy, final CallNext callNext, String... otherParameters) {
-        Places places = new Places(this, apiKey);
+    public void getNearby(String apiKey, Location location, int radius, PlacesSearch.RankBy rankBy, final CallNext callNext, String... otherParameters) {
+        PlacesSearch places = new PlacesSearch(this, apiKey);
         places.getNearby(location, radius, rankBy, callNext, otherParameters);
     }
 }
