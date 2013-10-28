@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.idempotent.coma.geocode.result;
+package com.idempotent.coma.result;
 
 import com.codename1.location.Location;
 import java.util.List;
@@ -21,13 +21,6 @@ public class Leg {
     private Location endLocation;
     private Location startLocation;
     
-    /**
-     * NOTE: Do not use this to plot the directions. 
-     * This is just a list of turns you must make. If you plot your directions with this, 
-     * You will get a plot that doesn't follow curves neatly
-     * To get a nice polyline plotted direction that follows curves 
-     * Use SingleRoute.decodedPolyline
-     */
     private List<Step> steps;
 
     public Distance getDistance() {
@@ -78,6 +71,13 @@ public class Leg {
         this.startLocation = startLocation;
     }
 
+    /**
+     * NOTE: Do not use this to plot the directions. 
+     * This is just a list of turns you must make. If you plot your directions with this, 
+     * You will get a plot that doesn't follow curves neatly
+     * To get a nice polyline plotted direction that follows curves 
+     * Use SingleRoute.decodedPolyline
+     */    
     public List<Step> getSteps() {
         return steps;
     }

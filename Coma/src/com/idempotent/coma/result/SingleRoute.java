@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.idempotent.coma.geocode.result;
+package com.idempotent.coma.result;
 
 import com.codename1.maps.Coord;
 import java.util.List;
@@ -18,11 +18,7 @@ public class SingleRoute {
     private List<Leg> legs;
     private Polyline overviewPolyline;
     private String summary;
-    /**
-     * NOTE: Use this to plot the direction on the map. 
-     */
-    private List<Coord> decodedPolyline;    
-    
+    private List<Coord> decodedPolyline;
 
     public Bounds getBounds() {
         return bounds;
@@ -64,11 +60,14 @@ public class SingleRoute {
         this.summary = summary;
     }
 
+    /**
+     * NOTE: Use this to plot the direction on the map.
+     */
     public List<Coord> getDecodedPolyline() {
         return decodedPolyline;
     }
 
     public void setDecodedPolyline(List<Coord> decodedPolyline) {
         this.decodedPolyline = decodedPolyline;
-    }        
+    }
 }

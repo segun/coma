@@ -11,19 +11,19 @@ import com.codename1.io.Util;
 import com.codename1.location.Location;
 import com.codename1.processing.Result;
 import com.idempotent.coma.callback.CallNext;
-import com.idempotent.coma.geocode.result.AddressComponent;
-import com.idempotent.coma.geocode.result.Bounds;
-import com.idempotent.coma.geocode.result.Distance;
-import com.idempotent.coma.geocode.result.Duration;
-import com.idempotent.coma.geocode.result.Geometry;
-import com.idempotent.coma.geocode.result.GoogleDirectionResult;
-import com.idempotent.coma.geocode.result.GoogleGeocodeResult;
-import com.idempotent.coma.geocode.result.Leg;
-import com.idempotent.coma.geocode.result.Polyline;
-import com.idempotent.coma.geocode.result.SingleResult;
-import com.idempotent.coma.geocode.result.SingleRoute;
-import com.idempotent.coma.geocode.result.Step;
-import com.idempotent.coma.geocode.result.ViewPort;
+import com.idempotent.coma.result.AddressComponent;
+import com.idempotent.coma.result.Bounds;
+import com.idempotent.coma.result.Distance;
+import com.idempotent.coma.result.Duration;
+import com.idempotent.coma.result.Geometry;
+import com.idempotent.coma.result.GoogleDirectionResult;
+import com.idempotent.coma.result.GoogleGeocodeResult;
+import com.idempotent.coma.result.Leg;
+import com.idempotent.coma.result.Polyline;
+import com.idempotent.coma.result.SingleResult;
+import com.idempotent.coma.result.SingleRoute;
+import com.idempotent.coma.result.Step;
+import com.idempotent.coma.result.ViewPort;
 import com.idempotent.coma.urlhelper.URLConstants;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,7 +77,7 @@ public class Coma {
     }
 
     /**
-     * This method can do noth geocoding and reverse geocoding. <br>To do a
+     * This method can do both geocoding and reverse geocoding. <br>To do a
      * reverse geocoding, set all variable to null except latlng and doReverse.
      * <br>To do geocoding, fill in all variables except latlng
      *
@@ -94,9 +94,9 @@ public class Coma {
      * @param otherParameters - The api takes lots of other parameters that can
      * help you streamline the result. Pass the other parameters here e.g
      * region=es
-     * @see com.idempotent.coma.geocode.result.GeoCodeResult
+     * @see com.idempotent.coma.result.GoogleGeocodeResult
      */
-    public void geocode(String street, String stateOrProvince, String country, String latlng, boolean doReverse, final CallNext callNext, String otherParameters) {
+    public void geocode(String street, String stateOrProvince, String country, String latlng, boolean doReverse, final CallNext callNext, String... otherParameters) {
         String countryCodesString = "NG";
 
         String query = "";
@@ -120,13 +120,15 @@ public class Coma {
         }
 
         if (otherParameters != null) {
-            if (otherParameters.indexOf("&") == 0) {
-                query += otherParameters;
-            } else {
-                query += "&" + otherParameters;
+            for (String otherParam : otherParameters) {
+                if (otherParam.indexOf("&") == 0) {
+                    query += otherParam;
+                } else {
+                    query += "&" + otherParam;
+                }
             }
         }
-
+        
         String url = URLConstants.GEOCODE_API_URL + query;
 
         System.out.println(url);
@@ -166,6 +168,11 @@ public class Coma {
         getNetworkManager().addToQueue(request);
     }
 
+    /**
+     * This method is only public so that it can be tested. It is used internally
+     * @param result
+     * @return 
+     */
     public GoogleGeocodeResult parseGeoCodeResult(Result result) {
 
         GoogleGeocodeResult geocodeResult = new GoogleGeocodeResult();
@@ -236,7 +243,24 @@ public class Coma {
         return geocodeResult;
     }
 
-    public void getDirections(String from, String to, String how, boolean avoidTolls, boolean avoidHighways, String otherParameters, final CallNext callNext) {
+    /**
+     * 
+     * @param from
+     * @param to
+     * @param how
+     * @param avoidTolls
+     * @param avoidHighways
+     * @param callNext onError, CallNext.onError() is called and a HashMap is
+     * passed in. <br>The HashMap contains two keys, code and value.
+     * <br>onSuccess, CallNext.onSuccess is called and the response from the
+     * geocode/reverse geocode call is passed. The response is a
+     * GoogleGeoCodeResult object.
+     * @param otherParameters - The api takes lots of other parameters that can
+     * help you streamline the result. Pass the other parameters here e.g
+     * region=es
+     * @see com.idempotent.coma.result.GoogleDirectionResult
+     */
+    public void getDirections(String from, String to, String how, boolean avoidTolls, boolean avoidHighways, final CallNext callNext, String... otherParameters) {
 
         String url = URLConstants.DIRECTIONS_API_URL;
 
@@ -283,10 +307,12 @@ public class Coma {
         url += query;
 
         if (otherParameters != null) {
-            if (otherParameters.indexOf("&") == 0) {
-                url += otherParameters;
-            } else {
-                url += "&" + otherParameters;
+            for (String otherParam : otherParameters) {
+                if (otherParam.indexOf("&") == 0) {
+                    query += otherParam;
+                } else {
+                    query += "&" + otherParam;
+                }
             }
         }
 
@@ -298,6 +324,11 @@ public class Coma {
         getNetworkManager().addToQueue(request);
     }
 
+    /**
+     * This method is only public so that it can be tested. It is used internally
+     * @param result
+     * @return 
+     */
     public GoogleDirectionResult parseDirectionsResult(Result result) {
         GoogleDirectionResult directionResult = new GoogleDirectionResult();
         directionResult.setStatus(result.getAsString("status"));
@@ -395,7 +426,7 @@ public class Coma {
             }
 
             singleRoute.setLegs(legs);
-            
+
             routes.add(singleRoute);
         }
         directionResult.setRoutes(routes);

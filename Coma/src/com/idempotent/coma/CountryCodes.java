@@ -46,7 +46,7 @@ public class CountryCodes {
      * @param country - The full name of the counntry
      * @return The country two-letter code
      */
-    private String getCountryCode(String country) {        
+    public String getCountryCode(String country) {        
         List<String> lines = MStrings.splitString(countryCodes, "\n");
         for (String line : lines) {
             List<String> cc = MStrings.splitString(line, ";");
