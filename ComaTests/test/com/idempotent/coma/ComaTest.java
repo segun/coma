@@ -12,7 +12,9 @@ import com.idempotent.coma.result.Duration;
 import com.idempotent.coma.result.GoogleDirectionResult;
 import com.idempotent.coma.result.GoogleGeocodeResult;
 import com.idempotent.coma.result.Leg;
-import com.idempotent.coma.result.PlacesResult;
+import com.idempotent.coma.result.PlaceDetailsResult;
+import com.idempotent.coma.result.PlacesSearchResult;
+import com.idempotent.coma.result.SinglePlaceDetails;
 import com.idempotent.coma.result.SingleResult;
 import com.idempotent.coma.result.SingleRoute;
 import com.idempotent.coma.result.Step;
@@ -189,38 +191,94 @@ public class ComaTest {
         List<Coord> decodedPolyline = routes.get(0).getDecodedPolyline();
         assertEquals(decodedPolyline.size(), 232);
     }
-    
+
     @Test
     public void testParsePlacesResultNearby() throws IllegalArgumentException, IOException {
         System.out.println("parsePlacesResultNearby");
         InputStream is = ComaTest.class.getResourceAsStream("/places_nearby.json");
-        Result result = Result.fromContent(is, Result.JSON);  
-        
-        Places places = new Places(new Coma(), "AIzaSyBy9QJoaWlNuv1eWLj1twPzyk5ymWACcl4");
-        
-        PlacesResult placesResult = places.parsePlacesResult(result);
-        
+        Result result = Result.fromContent(is, Result.JSON);
+
+        PlacesSearch places = new PlacesSearch(new Coma(), "");
+
+        PlacesSearchResult placesResult = places.parsePlacesResult(result);
+
         assertEquals(placesResult.getStatus(), "OK");
         assertEquals(placesResult.getHtmlAttributions()[0], "Listings by \u003ca href=\"http://www.yellowpages.com.au/\"\u003eYellow Pages\u003c/a\u003e");
-        assertEquals(placesResult.getResults().size(), 4);                
+        assertEquals(placesResult.getResults().size(), 4);
         assertEquals(placesResult.getResults().get(0).getGeometry().getLocation().getLatitude() + "", "-33.87054");
         assertEquals(placesResult.getResults().get(0).getGeometry().getLocation().getLongitude() + "", "151.198815");
-        
-        assertEquals(placesResult.getResults().get(1).getIcon(), "http://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png");        
-        assertEquals(placesResult.getResults().get(2).getId(), "27ea39c8fed1c0437069066b8dccf958a2d06f19");        
-        assertEquals(placesResult.getResults().get(2).getName(), "Criniti's Darling Harbour");                
+
+        assertEquals(placesResult.getResults().get(1).getIcon(), "http://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png");
+        assertEquals(placesResult.getResults().get(2).getId(), "27ea39c8fed1c0437069066b8dccf958a2d06f19");
+        assertEquals(placesResult.getResults().get(2).getName(), "Criniti's Darling Harbour");
         assertEquals(placesResult.getResults().get(2).getOpeningHours().isOpenNow(), false);
-        
+
         assertEquals(placesResult.getResults().get(2).getPhotos().get(0).getHeight() + "", "460.0");
         assertEquals(placesResult.getResults().get(2).getPhotos().get(0).getWidth() + "", "816.0");
         assertEquals(placesResult.getResults().get(2).getPhotos().get(0).getHtmlAttributions()[0], "\u003ca href=\"https://plus.google.com/103457556107207573713\"\u003eNormann Aguilar\u003c/a\u003e");
         assertEquals(placesResult.getResults().get(2).getPhotos().get(0).getPhotoReference(), "CoQBfwAAAA_PdJDFpVRDILBt_rDQjLLxblyndMf3xPIBsCTEajnU-lhlKAlmoM1HkJDn09PnzeT3WeT75NaRzZef8NuBoc17fH0Z_uEat6xhpuoSzKhOyMoGty0hmvBRYdTrqBLo8c4P_MVV3NF9334_W2YdWcq8raC-MtVfe4DQYNvx1gnkEhCcC7xVgGmg79VZ7-SJh9i0GhQAq-aYCJ0FQmOWUiYAJ1M_c2aebw");
-        
-        assertEquals(placesResult.getResults().get(0).getPriceLevel() + "", "2.0");
+
+        assertEquals(placesResult.getResults().get(0).getPriceLevel() + "", "2");
         assertEquals(placesResult.getResults().get(0).getRating() + "", "3.8");
-        
+
         assertEquals(placesResult.getResults().get(0).getReference(), "CoQBdgAAAO2qSkdkBwEZT4wPPH3sypuQ7jq3Id7PX7reIQF-goTHIXmX1z57xWXPZ2b8IV95B1YgRhGCsnlVznuJJiTnlbJ7EEtB8CddoN6Efs92qQvM1q0m_JObIJMlG-l4Vw_DmLbTj1h-JvjkR5RwGEacNHQsJ5UyiHz1ZooSCTz3mo6PEhDyaKcDr93g73oSimhYszk2GhT_VfSjXGpSFzJ51OBDMGYMeq-24Q");
         assertEquals(placesResult.getResults().get(0).getTypes()[3], "establishment");
         assertEquals(placesResult.getResults().get(0).getVicinity(), "Harbourside Shopping Centre,Darling Harbour,227/229-230 Darling Drive, Sydney");
+    }
+
+    @Test
+    public void parsePlaceDetailsTest() throws IllegalArgumentException, IOException {
+        System.out.println("parsePlaceDetailsTest");
+        InputStream is = ComaTest.class.getResourceAsStream("/place_details.json");
+        Result result = Result.fromContent(is, Result.JSON);
+
+        PlaceDetails placeDetails = new PlaceDetails(new Coma(), "");
+
+        PlaceDetailsResult pdr = placeDetails.parsePlaceDetailsResult(result);
+
+        assertNull(pdr.getHtmlAttributions());
+        assertEquals(pdr.getStatus(), "OK");
+        
+        SinglePlaceDetails spd = pdr.getSinglePlaceDetails();
+        assertEquals(spd.getAddressComponents().get(0).getLongName(), "48");
+        assertEquals(spd.getAddressComponents().get(2).getShortName(), "Pyrmont");
+        assertEquals(spd.getAddressComponents().get(4).getTypes().length, 2);
+        assertEquals(spd.getAddressComponents().get(4).getTypes()[1], "political");
+        
+        assertTrue(spd.getEvents().isEmpty());
+        
+        assertEquals(spd.getFormattedAddress(), "5/48 Pirrama Road, Pyrmont NSW, Australia");
+        assertEquals(spd.getFormattedPhoneNumber(), "(02) 9374 4000");
+        
+        assertEquals(spd.getGeometry().getLocation().getLatitude() + "", "-33.866933");
+        assertEquals(spd.getGeometry().getLocation().getLongitude() + "", "151.195791");
+        
+        assertEquals(spd.getIcon(), "http://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png");
+              
+
+        assertEquals(spd.getId(), "4f89212bf76dde31f092cfc14d7506555d85b5c7");
+        assertEquals(spd.getInternationalPhoneNumber(), "+61 2 9374 4000");
+        assertEquals(spd.getName(), "Google Australia");
+        
+        assertEquals(spd.getOpeningHours().isOpenNow(), false);
+        assertEquals(spd.getPhotos().size(), 6);
+        assertEquals(spd.getPhotos().get(0).getHeight() + "", "486.0");
+        assertEquals(spd.getPhotos().get(0).getHtmlAttributions()[0], "\u003ca href=\"https://plus.google.com/105850346606847400426\"\u003eBrandon Grimshaw\u003c/a\u003e");
+        assertEquals(spd.getPhotos().get(1).getPhotoReference(), "CnRtAAAAhVofJSjBuMGMvxDRXhfMsaW8Wu1QNWdU2NaC0OAo0Z9v-tOcmzIQVVZ0_T8jFZujkIMkpDOO5HpR9a9jS5d9LcvtOnJxRUSigZOaD9KrVCoylydVrOswVz70GT9zmBUSWRnfkk_aN1Ke_reNMG_YvhIQTXMI7mPvTkFxtL7F1IQRFBoU1dayrLx5wkr14J9_nvyRFvHtWGg");
+        assertEquals(spd.getPhotos().get(2).getWidth() + "", "2048.0");
+        assertEquals(spd.getRating() + "", "4.4");
+        assertEquals(spd.getReference(), "CoQBdwAAABfE_IUJXgtbT8zwyXPOUYPVR1iXXNziH_vk-hWZ-ZVX9H5XjoIywNPeaSO58NE2sPdvtR-iN-d57nE7Qm_lfgpAr2sLbJuc0uerD0jhLRsUp3S2D8CmpbBIVE66QqQdM-OO6NlDe-V1M08NOgdYKYRNTVfJjsq3iLPTfdeLla20EhAhB5bGiK2A7ILVObNh89QTGhTiie1C9NPANIuBOQta295NeVr9mA");
+        assertEquals(spd.getReviews().size(), 5);
+        assertEquals(spd.getReviews().get(0).getAspects().get(0).getRating(), 3);
+        assertEquals(spd.getReviews().get(0).getAspects().get(0).getType(), "quality");
+        assertEquals(spd.getReviews().get(0).getAuthorName(), "Cindy Huang");
+        assertEquals(spd.getReviews().get(1).getAuthorURL(), "https://plus.google.com/106558367962383756670");
+        assertEquals(spd.getReviews().get(2).getText(), "Google&#39;s main intent is to destroy small business unless of cause they sign up to their advertising, they write bad comments and sign it a google user then demand you sign up with their advisement to have it removed. Guess what google it&#39;s not happening");
+        assertEquals(spd.getReviews().get(3).getTime(), 1358233693);
+        assertEquals(spd.getTypes()[0], "establishment");
+        assertEquals(spd.getUTCOffset(), "660.0");
+        assertEquals(spd.getUrl(), "https://plus.google.com/111840715355681175070/about?hl=en-US");
+        assertEquals(spd.getVicinity(), "5/48 Pirrama Road, Pyrmont");
+        assertEquals(spd.getWebsite(), "http://www.google.com/about/jobs/locations/sydney/");
     }
 }

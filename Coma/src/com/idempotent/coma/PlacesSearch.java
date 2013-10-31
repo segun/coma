@@ -33,7 +33,6 @@ import java.util.List;
 public class PlacesSearch {
 
     public enum RankBy {
-
         PROMINENCE, DISTANCE
     };
     Coma coma;
@@ -137,6 +136,7 @@ public class PlacesSearch {
         PlacesSearchResult placesResult = new PlacesSearchResult();
         placesResult.setHtmlAttributions(result.getAsStringArray("html_attributions"));
         placesResult.setStatus(result.getAsString("status"));
+        placesResult.setRaw(result);
 
         int rSize = result.getSizeOfArray("results");
 
@@ -173,7 +173,7 @@ public class PlacesSearch {
             }
             singlePlace.setPhotos(photos);
 
-            singlePlace.setPriceLevel(result.getAsDouble("results[" + i + "]/price_level"));
+            singlePlace.setPriceLevel((int) result.getAsDouble("results[" + i + "]/price_level"));
             singlePlace.setRating(result.getAsDouble("results[" + i + "]/rating"));
             singlePlace.setReference(result.getAsString("results[" + i + "]/reference"));
             singlePlace.setTypes(result.getAsStringArray("results[" + i + "]/types"));

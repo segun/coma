@@ -10,19 +10,59 @@ import java.util.List;
  *
  * @author aardvocate
  */
-public class SinglePlace {        
+public class SinglePlaceDetails {
+    private List<AddressComponent> addressComponents;
+    private List<Event> events;
+    private String formattedAddress;
+    private String formattedPhoneNumber;
     private Geometry geometry;
     private String icon;
     private String id;
+    private String internationalPhoneNumber;
     private String name;
     private OpeningHours openingHours;
-    List<Photo> photos;
+    private List<Photo> photos;
     private int priceLevel;
     private double rating;
     private String reference;
+    private List<Review> reviews;
     private String[] types;
+    private String url;
+    private String UTCOffset;
     private String vicinity;
-    private List<Event> events;
+    private String website;    
+
+    public List<AddressComponent> getAddressComponents() {
+        return addressComponents;
+    }
+
+    public void setAddressComponents(List<AddressComponent> addressComponents) {
+        this.addressComponents = addressComponents;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public String getFormattedAddress() {
+        return formattedAddress;
+    }
+
+    public void setFormattedAddress(String formattedAddress) {
+        this.formattedAddress = formattedAddress;
+    }
+
+    public String getFormattedPhoneNumber() {
+        return formattedPhoneNumber;
+    }
+
+    public void setFormattedPhoneNumber(String formattedPhoneNumber) {
+        this.formattedPhoneNumber = formattedPhoneNumber;
+    }
 
     public Geometry getGeometry() {
         return geometry;
@@ -46,6 +86,14 @@ public class SinglePlace {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getInternationalPhoneNumber() {
+        return internationalPhoneNumber;
+    }
+
+    public void setInternationalPhoneNumber(String internationalPhoneNumber) {
+        this.internationalPhoneNumber = internationalPhoneNumber;
     }
 
     public String getName() {
@@ -96,6 +144,14 @@ public class SinglePlace {
         this.reference = reference;
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     public String[] getTypes() {
         return types;
     }
@@ -104,27 +160,35 @@ public class SinglePlace {
         this.types = types;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUTCOffset() {
+        return UTCOffset;
+    }
+
+    public void setUTCOffset(String UTCOffset) {
+        this.UTCOffset = UTCOffset;
+    }
+
     public String getVicinity() {
         return vicinity;
     }
 
     public void setVicinity(String vicinity) {
         this.vicinity = vicinity;
-    }  
-
-    public List<Event> getEvents() {
-        return events;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }    
-    
-    public String getPriceLevelAsString() {
-        String priceLevels[] = {
-            "Free", "Inexpensive", "Moderate", "Expensive", "Very Expensive"
-        };
-        int pl = (int) priceLevel;
-        return priceLevels[pl];
+    public String getWebsite() {
+        return website;
     }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }       
 }

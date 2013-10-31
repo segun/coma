@@ -75,40 +75,7 @@ public class Geocode {
         String url = URLConstants.GEOCODE_API_URL + query;
 
         System.out.println(url);
-
-        ConnectionRequest request = new ConnectionRequest() {
-            @Override
-            protected void handleErrorResponseCode(int code, String message) {
-                HashMap<String, String> errorMap = new HashMap<String, String>();
-                errorMap.put("code", code + "");
-                errorMap.put("message", message);
-                callNext.onError(errorMap);
-            }
-
-            @Override
-            protected void handleException(Exception err) {
-                HashMap<String, String> errorMap = new HashMap<String, String>();
-                errorMap.put("code", 500 + "");
-                errorMap.put("message", "Exception: " + err.getMessage());
-                err.printStackTrace();
-                callNext.onError(errorMap);
-            }
-
-            @Override
-            protected void readResponse(InputStream input) throws IOException {
-                JSONParser parser = new JSONParser();
-                Hashtable result = parser.parse(new InputStreamReader(input));
-                Result res = Result.fromContent(result);
-                GoogleGeocodeResult geocodeResult = parseGeoCodeResult(res);
-                callNext.onSuccess(geocodeResult);
-            }
-        };
-
-        request.setUrl(url);
-        request.setPost(false);
-        request.setDuplicateSupported(false);
-
-        coma.getNetworkManager().addToQueue(request);
+        connect(url, callNext);
     }
 
     public GoogleGeocodeResult parseGeoCodeResult(Result result) {
@@ -178,5 +145,41 @@ public class Geocode {
 
         geocodeResult.setResults(allResults);
         return geocodeResult;
+    }
+    
+    private void connect(String url, final CallNext callNext) {
+        ConnectionRequest request = new ConnectionRequest() {
+            @Override
+            protected void handleErrorResponseCode(int code, String message) {
+                HashMap<String, String> errorMap = new HashMap<String, String>();
+                errorMap.put("code", code + "");
+                errorMap.put("message", message);
+                callNext.onError(errorMap);
+            }
+
+            @Override
+            protected void handleException(Exception err) {
+                HashMap<String, String> errorMap = new HashMap<String, String>();
+                errorMap.put("code", 500 + "");
+                errorMap.put("message", "Exception: " + err.getMessage());
+                err.printStackTrace();
+                callNext.onError(errorMap);
+            }
+
+            @Override
+            protected void readResponse(InputStream input) throws IOException {
+                JSONParser parser = new JSONParser();
+                Hashtable result = parser.parse(new InputStreamReader(input));
+                Result res = Result.fromContent(result);
+                GoogleGeocodeResult geocodeResult = parseGeoCodeResult(res);
+                callNext.onSuccess(geocodeResult);
+            }
+        };
+
+        request.setUrl(url);
+        request.setPost(false);
+        request.setDuplicateSupported(false);
+
+        coma.getNetworkManager().addToQueue(request);        
     }
 }

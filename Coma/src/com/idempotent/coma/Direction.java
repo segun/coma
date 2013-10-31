@@ -42,31 +42,7 @@ public class Direction {
 
         String url = URLConstants.DIRECTIONS_API_URL;
 
-        ConnectionRequest request = new ConnectionRequest() {
-            @Override
-            protected void handleErrorResponseCode(int code, String message) {
-                HashMap<String, String> errorMap = new HashMap<String, String>();
-                errorMap.put("code", code + "");
-                errorMap.put("message", message);
-                callNext.onError(errorMap);
-            }
 
-            @Override
-            protected void handleException(Exception err) {
-                HashMap<String, String> errorMap = new HashMap<String, String>();
-                errorMap.put("code", 500 + "");
-                errorMap.put("message", "Exception: " + err.getMessage());
-                err.printStackTrace();
-                callNext.onError(errorMap);
-            }
-
-            @Override
-            protected void readResponse(InputStream input) throws IOException {
-                Result res = Result.fromContent(input, Result.JSON);
-                GoogleDirectionResult directionResult = parseDirectionsResult(res);
-                callNext.onSuccess(directionResult);
-            }
-        };
 
         String query = "origin=" + Util.encodeUrl(from) + "&destination=" + Util.encodeUrl(to) + "&mode=" + Util.encodeUrl(how);
 
@@ -95,11 +71,8 @@ public class Direction {
         }
 
         System.out.println(url);
-        request.setUrl(url);
-        request.setPost(false);
-        request.setDuplicateSupported(true);
 
-        coma.getNetworkManager().addToQueue(request);
+        connect(url, callNext);
     }
 
     public GoogleDirectionResult parseDirectionsResult(Result result) {
@@ -205,4 +178,38 @@ public class Direction {
         directionResult.setRoutes(routes);
         return directionResult;
     }
+    
+    private void connect(String url, final CallNext callNext) {
+        ConnectionRequest request = new ConnectionRequest() {
+            @Override
+            protected void handleErrorResponseCode(int code, String message) {
+                HashMap<String, String> errorMap = new HashMap<String, String>();
+                errorMap.put("code", code + "");
+                errorMap.put("message", message);
+                callNext.onError(errorMap);
+            }
+
+            @Override
+            protected void handleException(Exception err) {
+                HashMap<String, String> errorMap = new HashMap<String, String>();
+                errorMap.put("code", 500 + "");
+                errorMap.put("message", "Exception: " + err.getMessage());
+                err.printStackTrace();
+                callNext.onError(errorMap);
+            }
+
+            @Override
+            protected void readResponse(InputStream input) throws IOException {
+                Result res = Result.fromContent(input, Result.JSON);
+                GoogleDirectionResult directionResult = parseDirectionsResult(res);
+                callNext.onSuccess(directionResult);
+            }
+        };
+
+        request.setUrl(url);
+        request.setPost(false);
+        request.setDuplicateSupported(true);
+
+        coma.getNetworkManager().addToQueue(request);
+    }    
 }

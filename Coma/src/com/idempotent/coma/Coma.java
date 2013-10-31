@@ -4,11 +4,16 @@
  */
 package com.idempotent.coma;
 
+import com.codename1.io.ConnectionRequest;
 import com.codename1.io.NetworkManager;
 import com.codename1.location.Location;
+import com.codename1.processing.Result;
 import com.idempotent.coma.callback.CallNext;
 import com.idempotent.coma.result.GoogleDirectionResult;
 import com.idempotent.coma.result.GoogleGeocodeResult;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 
 /**
  *
@@ -118,5 +123,5 @@ public class Coma {
     public void getNearby(String apiKey, Location location, int radius, PlacesSearch.RankBy rankBy, final CallNext callNext, String... otherParameters) {
         PlacesSearch places = new PlacesSearch(this, apiKey);
         places.getNearby(location, radius, rankBy, callNext, otherParameters);
-    }
+    }       
 }

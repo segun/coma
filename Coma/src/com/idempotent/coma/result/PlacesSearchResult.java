@@ -4,6 +4,7 @@
  */
 package com.idempotent.coma.result;
 
+import com.codename1.processing.Result;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ public class PlacesSearchResult {
     private String[] htmlAttributions;
     private List<SinglePlace> results;
     private String status;
+    private Result raw;
 
     public String[] getHtmlAttributions() {
         return htmlAttributions;
@@ -37,5 +39,14 @@ public class PlacesSearchResult {
 
     public void setStatus(String status) {
         this.status = status;
-    }        
+    }    
+
+    public Result getRaw() {
+        return raw;
+    }
+
+    public void setRaw(Result raw) {
+        this.raw = raw;
+    }
+    
 }
