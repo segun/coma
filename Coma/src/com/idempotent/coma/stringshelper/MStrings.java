@@ -9,7 +9,9 @@ import java.util.List;
 
 /**
  *
- * @author root
+ * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class MStrings {
 

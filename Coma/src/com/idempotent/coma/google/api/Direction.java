@@ -30,6 +30,8 @@ import java.util.List;
  * before proceeding to use the API
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class Direction {
 
@@ -39,6 +41,17 @@ public class Direction {
         this.coma = coma;
     }
 
+    /**
+     * 
+     * @param from
+     * @param to
+     * @param how
+     * @param avoidTolls
+     * @param avoidHighways
+     * @param callNext onSuccess method will be called with an instance of GoogleDirectionResult
+     * @param otherParameters 
+     * @see com.idempotent.coma.result.GoogleDirectionResult
+     */
     public void getDirections(String from, String to, String how, boolean avoidTolls, boolean avoidHighways, final CallNext callNext, String... otherParameters) {
 
         String url = URLConstants.DIRECTIONS_API_URL;
@@ -76,6 +89,12 @@ public class Direction {
         connect(url, callNext);
     }
 
+    /**
+     * This method is public only because we want to test it. 
+     * You can make it private if you want.
+     * @param result
+     * @return GoogleDirectionResult
+     */
     public GoogleDirectionResult parseDirectionsResult(Result result) {
         GoogleDirectionResult directionResult = new GoogleDirectionResult();
         directionResult.setStatus(result.getAsString("status"));

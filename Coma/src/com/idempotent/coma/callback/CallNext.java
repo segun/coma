@@ -10,6 +10,8 @@ package com.idempotent.coma.callback;
  * The appropriate methods are called when either an error or a success situation is encountered
  * @see com.idempotent.coma.Coma
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public interface CallNext {
     /**

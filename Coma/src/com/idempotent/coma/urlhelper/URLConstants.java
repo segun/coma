@@ -7,6 +7,8 @@ package com.idempotent.coma.urlhelper;
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class URLConstants {
     public static final String GEOCODE_API_URL = "http://maps.googleapis.com/maps/api/geocode/json?sensor=true&";   

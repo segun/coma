@@ -9,6 +9,8 @@ import com.codename1.processing.Result;
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public abstract class GenericResult {
     protected String status;

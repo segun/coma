@@ -9,6 +9,7 @@ import com.codename1.location.Location;
 import com.codename1.processing.Result;
 import com.idempotent.coma.Coma;
 import com.idempotent.coma.callback.CallNext;
+import com.idempotent.coma.result.GooglePlaceDetailsResult;
 import com.idempotent.coma.result.helpers.AddressComponent;
 import com.idempotent.coma.result.helpers.AspectRating;
 import com.idempotent.coma.result.helpers.Event;
@@ -16,7 +17,6 @@ import com.idempotent.coma.result.helpers.Geometry;
 import com.idempotent.coma.result.helpers.OpeningHours;
 import com.idempotent.coma.result.helpers.Period;
 import com.idempotent.coma.result.helpers.Photo;
-import com.idempotent.coma.result.GooglePlaceDetailsResult;
 import com.idempotent.coma.result.helpers.Review;
 import com.idempotent.coma.result.helpers.SinglePlaceDetails;
 import com.idempotent.coma.result.helpers.Time;
@@ -32,6 +32,8 @@ import java.util.List;
  * proceeding to use the API
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class PlaceDetails {
 
@@ -43,6 +45,13 @@ public class PlaceDetails {
         this.apiKey = apiKey;
     }
 
+    /**
+     * 
+     * @param reference You get this from calling the PlacesSearch api
+     * @param callNext call onSuccess method will be called with an instance of GooglePlaceDetailsResult
+     * @param otherParameters 
+     * @see com.idempotent.coma.result.GooglePlaceDetailsResult
+     */
     public void getDetails(String reference, CallNext callNext, String... otherParameters) {
         String query = "&key=" + apiKey
                 + "&reference=" + reference;
@@ -62,7 +71,7 @@ public class PlaceDetails {
         System.out.println(url);
         connect(url, callNext);
     }
-
+    
     private void connect(String url, final CallNext callNext) {
         ConnectionRequest request = new ConnectionRequest() {
             @Override
@@ -97,6 +106,12 @@ public class PlaceDetails {
         coma.getNetworkManager().addToQueue(request);
     }
 
+    /**
+     * This method is public only because we want to test it. 
+     * You can make it private if you want.
+     * @param result
+     * @return GooglePlaceDetailsResult
+     */    
     public GooglePlaceDetailsResult parsePlaceDetailsResult(Result result) {
         GooglePlaceDetailsResult placeDetailsResult = new GooglePlaceDetailsResult();
 

@@ -12,6 +12,7 @@ import java.util.List;
  * It also contains utility methods for getting the country and/or the code
  *
  * @author aardvocate
+ * @since 1.0
  */
 public class CountryCodes {
 

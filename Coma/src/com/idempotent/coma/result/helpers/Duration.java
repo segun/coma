@@ -4,11 +4,11 @@
  */
 package com.idempotent.coma.result.helpers;
 
-import com.idempotent.coma.result.helpers.TextValue;
-
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class Duration extends TextValue {
     

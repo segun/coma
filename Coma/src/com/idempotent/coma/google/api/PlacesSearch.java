@@ -11,10 +11,10 @@ import com.codename1.location.Location;
 import com.codename1.processing.Result;
 import com.idempotent.coma.Coma;
 import com.idempotent.coma.callback.CallNext;
+import com.idempotent.coma.result.GooglePlacesSearchResult;
 import com.idempotent.coma.result.helpers.Geometry;
 import com.idempotent.coma.result.helpers.OpeningHours;
 import com.idempotent.coma.result.helpers.Photo;
-import com.idempotent.coma.result.GooglePlacesSearchResult;
 import com.idempotent.coma.result.helpers.SinglePlace;
 import com.idempotent.coma.urlhelper.URLConstants;
 import java.io.IOException;
@@ -30,10 +30,13 @@ import java.util.List;
  * proceeding to use the API
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class PlacesSearch {
 
     public enum RankBy {
+
         PROMINENCE, DISTANCE
     };
     Coma coma;
@@ -44,6 +47,14 @@ public class PlacesSearch {
         this.apiKey = apiKey;
     }
 
+    /**
+     * @param location
+     * @param radius
+     * @param callNext onSuccess method will be called with an instance of
+     * GooglePlacesSearchResult
+     * @param otherParameters
+     * @see com.idempotent.coma.result.GooglePlacesSearchResult
+     */
     public void getRadarSearch(Location location, int radius, final CallNext callNext, String... otherParameters) {
         String query = "&key=" + apiKey
                 + "&location=" + Util.encodeUrl(location.getLatitude() + "," + location.getLongitude())
@@ -65,6 +76,14 @@ public class PlacesSearch {
         connect(url, callNext);
     }
 
+    /**
+     *
+     * @param searchString
+     * @param callNext onSuccess method will be called with an instance of
+     * GooglePlacesSearchResult
+     * @param otherParameters
+     * @see com.idempotent.coma.result.GooglePlacesSearchResult
+     */
     public void getTextSearch(String searchString, final CallNext callNext, String... otherParameters) {
         String query = "&key=" + apiKey
                 + "&query=" + Util.encodeUrl(searchString);
@@ -85,11 +104,30 @@ public class PlacesSearch {
         connect(url, callNext);
     }
 
+    /**
+     *
+     * @param location
+     * @param radius
+     * @param callNext onSuccess method will be called with an instance of
+     * GooglePlacesSearchResult
+     * @param otherParameters
+     * @see com.idempotent.coma.result.GooglePlacesSearchResult
+     */
     public void getNearby(Location location, int radius, final CallNext callNext, String... otherParameters) {
         RankBy rankBy = RankBy.PROMINENCE;
         getNearby(location, radius, rankBy, callNext, otherParameters);
     }
 
+    /**
+     *
+     * @param location
+     * @param radius
+     * @param rankBy
+     * @param callNext onSuccess method will be called with an instance of
+     * GooglePlacesSearchResult
+     * @param otherParameters
+     * @see com.idempotent.coma.result.GooglePlacesSearchResult
+     */
     public void getNearby(Location location, int radius, RankBy rankBy, final CallNext callNext, String... otherParameters) {
         boolean rankSettingsOk = false;
         if (rankBy.equals(RankBy.DISTANCE)) {
@@ -133,6 +171,13 @@ public class PlacesSearch {
         connect(url, callNext);
     }
 
+    /**
+     * This method is public only because we want to test it. You can make it
+     * private if you want.
+     *
+     * @param result
+     * @return GooglePlacesSearchResult
+     */
     public GooglePlacesSearchResult parsePlacesResult(Result result) {
         GooglePlacesSearchResult placesResult = new GooglePlacesSearchResult();
         placesResult.setHtmlAttributions(result.getAsStringArray("html_attributions"));

@@ -10,6 +10,8 @@ import com.idempotent.coma.result.helpers.SinglePlaceDetails;
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class GooglePlaceDetailsResult extends GenericResult {
     private SinglePlaceDetails singlePlaceDetails;

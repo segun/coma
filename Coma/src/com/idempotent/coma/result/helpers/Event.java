@@ -7,6 +7,8 @@ package com.idempotent.coma.result.helpers;
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class Event {
     private String eventID;

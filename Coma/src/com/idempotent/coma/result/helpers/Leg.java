@@ -4,15 +4,14 @@
  */
 package com.idempotent.coma.result.helpers;
 
-import com.idempotent.coma.result.helpers.Duration;
-import com.idempotent.coma.result.helpers.Distance;
-import com.idempotent.coma.result.helpers.Step;
 import com.codename1.location.Location;
 import java.util.List;
 
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class Leg {
     private Distance distance;

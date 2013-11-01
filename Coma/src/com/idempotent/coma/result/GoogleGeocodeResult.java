@@ -11,6 +11,8 @@ import java.util.List;
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class GoogleGeocodeResult extends GenericResult {
     private List<SingleResult> results;

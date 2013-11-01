@@ -4,11 +4,11 @@
  */
 package com.idempotent.coma.result.helpers;
 
-import com.idempotent.coma.result.helpers.Time;
-
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class Period {
     Time open;

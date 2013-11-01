@@ -9,6 +9,8 @@ import com.codename1.location.Location;
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class ViewPort {
     private  Location northEast;

@@ -4,13 +4,14 @@
  */
 package com.idempotent.coma.result.helpers;
 
-import com.idempotent.coma.result.helpers.Polyline;
 import com.codename1.maps.Coord;
 import java.util.List;
 
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class SingleRoute {
 

@@ -4,13 +4,13 @@
  */
 package com.idempotent.coma.result.helpers;
 
-import com.idempotent.coma.result.helpers.Bounds;
-import com.idempotent.coma.result.helpers.ViewPort;
 import com.codename1.location.Location;
 
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class Geometry {
     private  Location location;

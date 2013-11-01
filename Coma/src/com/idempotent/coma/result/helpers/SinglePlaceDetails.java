@@ -4,12 +4,13 @@
  */
 package com.idempotent.coma.result.helpers;
 
-import com.idempotent.coma.result.helpers.Review;
 import java.util.List;
 
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class SinglePlaceDetails {
     private List<AddressComponent> addressComponents;

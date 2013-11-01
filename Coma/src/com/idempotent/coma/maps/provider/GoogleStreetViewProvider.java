@@ -6,7 +6,6 @@ package com.idempotent.coma.maps.provider;
 
 import com.codename1.maps.BoundingBox;
 import com.codename1.maps.Mercator;
-import com.codename1.maps.Projection;
 import com.codename1.maps.Tile;
 import com.codename1.maps.providers.TiledProvider;
 import com.codename1.ui.geom.Dimension;
@@ -14,6 +13,8 @@ import com.codename1.ui.geom.Dimension;
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  * 
  * This class provides a google street view 
  */

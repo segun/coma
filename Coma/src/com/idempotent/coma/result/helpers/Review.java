@@ -9,6 +9,8 @@ import java.util.List;
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class Review {
     public List<AspectRating> aspects;

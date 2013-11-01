@@ -4,12 +4,13 @@
  */
 package com.idempotent.coma.result.helpers;
 
-import com.idempotent.coma.result.helpers.Period;
 import java.util.List;
 
 /**
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class OpeningHours {
     private boolean openNow;

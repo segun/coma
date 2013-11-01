@@ -31,6 +31,8 @@ import java.util.List;
  * before proceeding to use the API
  *
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class Geocode {
 
@@ -40,6 +42,17 @@ public class Geocode {
         this.coma = coma;
     }
 
+    /**
+     * 
+     * @param street
+     * @param stateOrProvince
+     * @param country
+     * @param location
+     * @param doReverse
+     * @param callNext onSuccess method will be called with an instance of GoogleGeocodeResult
+     * @param otherParameters 
+     * @see com.idempotent.coma.result.GoogleGeocodeResult
+     */
     public void geocode(String street, String stateOrProvince, String country, Location location, boolean doReverse, final CallNext callNext, String... otherParameters) {
         String countryCodesString = "NG";
 
@@ -79,6 +92,13 @@ public class Geocode {
         connect(url, callNext);
     }
 
+    /**
+     * This method is public only because we want to test it. 
+     * You can make it private if you want.
+     * @param result
+     * @return GoogleGeocodeResult
+     */
+    
     public GoogleGeocodeResult parseGeoCodeResult(Result result) {
 
         GoogleGeocodeResult geocodeResult = new GoogleGeocodeResult();

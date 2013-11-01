@@ -8,6 +8,8 @@ package com.idempotent.coma.callback;
  * A CallNext instance that do nothing.
  * 
  * @author aardvocate
+ * 
+ * @since 1.0
  */
 public class DefaultCallNext implements CallNext{
 
