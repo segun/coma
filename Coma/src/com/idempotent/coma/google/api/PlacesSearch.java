@@ -2,19 +2,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.idempotent.coma;
+package com.idempotent.coma.google.api;
 
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.Util;
 import com.codename1.location.Location;
 import com.codename1.processing.Result;
+import com.idempotent.coma.Coma;
 import com.idempotent.coma.callback.CallNext;
-import com.idempotent.coma.result.Geometry;
-import com.idempotent.coma.result.OpeningHours;
-import com.idempotent.coma.result.Photo;
-import com.idempotent.coma.result.PlacesSearchResult;
-import com.idempotent.coma.result.SinglePlace;
+import com.idempotent.coma.result.helpers.Geometry;
+import com.idempotent.coma.result.helpers.OpeningHours;
+import com.idempotent.coma.result.helpers.Photo;
+import com.idempotent.coma.result.GooglePlacesSearchResult;
+import com.idempotent.coma.result.helpers.SinglePlace;
 import com.idempotent.coma.urlhelper.URLConstants;
 import java.io.IOException;
 import java.io.InputStream;
@@ -132,8 +133,8 @@ public class PlacesSearch {
         connect(url, callNext);
     }
 
-    public PlacesSearchResult parsePlacesResult(Result result) {
-        PlacesSearchResult placesResult = new PlacesSearchResult();
+    public GooglePlacesSearchResult parsePlacesResult(Result result) {
+        GooglePlacesSearchResult placesResult = new GooglePlacesSearchResult();
         placesResult.setHtmlAttributions(result.getAsStringArray("html_attributions"));
         placesResult.setStatus(result.getAsString("status"));
         placesResult.setRaw(result);
@@ -208,7 +209,7 @@ public class PlacesSearch {
                 JSONParser parser = new JSONParser();
                 Hashtable result = parser.parse(new InputStreamReader(input));
                 Result res = Result.fromContent(result);
-                PlacesSearchResult placesResult = parsePlacesResult(res);
+                GooglePlacesSearchResult placesResult = parsePlacesResult(res);
                 callNext.onSuccess(placesResult);
 
             }

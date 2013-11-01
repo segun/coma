@@ -12,6 +12,14 @@ package com.idempotent.coma.callback;
  * @author aardvocate
  */
 public interface CallNext {
+    /**
+     * Implement this method. It gets called whenever there's an error in the api call.
+     * @param retVal This is always an HashMap containing code and value. Code is the error code and value is the error reason     * 
+     */
     public void onError(Object retVal);
+    /**
+     * Implement this method. It gets called on a successful api call. 
+     * @param retVal 
+     */    
     public void onSuccess(Object retVal);
 }

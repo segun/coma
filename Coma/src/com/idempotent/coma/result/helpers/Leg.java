@@ -2,8 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.idempotent.coma.result;
+package com.idempotent.coma.result.helpers;
 
+import com.idempotent.coma.result.helpers.Duration;
+import com.idempotent.coma.result.helpers.Distance;
+import com.idempotent.coma.result.helpers.Step;
 import com.codename1.location.Location;
 import java.util.List;
 

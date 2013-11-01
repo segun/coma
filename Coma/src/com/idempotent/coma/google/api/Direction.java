@@ -2,21 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.idempotent.coma;
+package com.idempotent.coma.google.api;
 
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.Util;
 import com.codename1.location.Location;
 import com.codename1.processing.Result;
+import com.idempotent.coma.Coma;
 import com.idempotent.coma.callback.CallNext;
-import com.idempotent.coma.result.Bounds;
-import com.idempotent.coma.result.Distance;
-import com.idempotent.coma.result.Duration;
 import com.idempotent.coma.result.GoogleDirectionResult;
-import com.idempotent.coma.result.Leg;
-import com.idempotent.coma.result.Polyline;
-import com.idempotent.coma.result.SingleRoute;
-import com.idempotent.coma.result.Step;
+import com.idempotent.coma.result.helpers.Bounds;
+import com.idempotent.coma.result.helpers.Distance;
+import com.idempotent.coma.result.helpers.Duration;
+import com.idempotent.coma.result.helpers.Leg;
+import com.idempotent.coma.result.helpers.Polyline;
+import com.idempotent.coma.result.helpers.SingleRoute;
+import com.idempotent.coma.result.helpers.Step;
 import com.idempotent.coma.urlhelper.URLConstants;
 import java.io.IOException;
 import java.io.InputStream;

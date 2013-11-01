@@ -5,17 +5,17 @@
 package com.idempotent.coma.result;
 
 import com.codename1.processing.Result;
+import com.idempotent.coma.result.helpers.SingleRoute;
 import java.util.List;
 
 /**
  *
  * @author aardvocate
  */
-public class GoogleDirectionResult {
+public class GoogleDirectionResult extends GenericResult {
 
-    private String status;
     private List<SingleRoute> routes;
-    private Result raw;
+    
 
     public Result getRaw() {
         return raw;

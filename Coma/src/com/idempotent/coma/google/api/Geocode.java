@@ -2,20 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.idempotent.coma;
+package com.idempotent.coma.google.api;
 
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.Util;
 import com.codename1.location.Location;
 import com.codename1.processing.Result;
+import com.idempotent.coma.Coma;
 import com.idempotent.coma.callback.CallNext;
-import com.idempotent.coma.result.AddressComponent;
-import com.idempotent.coma.result.Bounds;
-import com.idempotent.coma.result.Geometry;
 import com.idempotent.coma.result.GoogleGeocodeResult;
-import com.idempotent.coma.result.SingleResult;
-import com.idempotent.coma.result.ViewPort;
+import com.idempotent.coma.result.helpers.AddressComponent;
+import com.idempotent.coma.result.helpers.Bounds;
+import com.idempotent.coma.result.helpers.Geometry;
+import com.idempotent.coma.result.helpers.SingleResult;
+import com.idempotent.coma.result.helpers.ViewPort;
 import com.idempotent.coma.urlhelper.URLConstants;
 import java.io.IOException;
 import java.io.InputStream;

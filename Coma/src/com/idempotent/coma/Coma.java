@@ -4,16 +4,14 @@
  */
 package com.idempotent.coma;
 
-import com.codename1.io.ConnectionRequest;
 import com.codename1.io.NetworkManager;
 import com.codename1.location.Location;
-import com.codename1.processing.Result;
 import com.idempotent.coma.callback.CallNext;
+import com.idempotent.coma.google.api.Direction;
+import com.idempotent.coma.google.api.Geocode;
+import com.idempotent.coma.google.api.PlacesSearch;
 import com.idempotent.coma.result.GoogleDirectionResult;
 import com.idempotent.coma.result.GoogleGeocodeResult;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
 
 /**
  *

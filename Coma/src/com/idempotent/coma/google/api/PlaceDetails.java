@@ -2,23 +2,24 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.idempotent.coma;
+package com.idempotent.coma.google.api;
 
 import com.codename1.io.ConnectionRequest;
 import com.codename1.location.Location;
 import com.codename1.processing.Result;
+import com.idempotent.coma.Coma;
 import com.idempotent.coma.callback.CallNext;
-import com.idempotent.coma.result.AddressComponent;
-import com.idempotent.coma.result.AspectRating;
-import com.idempotent.coma.result.Event;
-import com.idempotent.coma.result.Geometry;
-import com.idempotent.coma.result.OpeningHours;
-import com.idempotent.coma.result.Period;
-import com.idempotent.coma.result.Photo;
-import com.idempotent.coma.result.PlaceDetailsResult;
-import com.idempotent.coma.result.Review;
-import com.idempotent.coma.result.SinglePlaceDetails;
-import com.idempotent.coma.result.Time;
+import com.idempotent.coma.result.helpers.AddressComponent;
+import com.idempotent.coma.result.helpers.AspectRating;
+import com.idempotent.coma.result.helpers.Event;
+import com.idempotent.coma.result.helpers.Geometry;
+import com.idempotent.coma.result.helpers.OpeningHours;
+import com.idempotent.coma.result.helpers.Period;
+import com.idempotent.coma.result.helpers.Photo;
+import com.idempotent.coma.result.GooglePlaceDetailsResult;
+import com.idempotent.coma.result.helpers.Review;
+import com.idempotent.coma.result.helpers.SinglePlaceDetails;
+import com.idempotent.coma.result.helpers.Time;
 import com.idempotent.coma.urlhelper.URLConstants;
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,7 +85,7 @@ public class PlaceDetails {
             @Override
             protected void readResponse(InputStream input) throws IOException {
                 Result res = Result.fromContent(input, Result.JSON);
-                PlaceDetailsResult placeDetailsResult = parsePlaceDetailsResult(res);
+                GooglePlaceDetailsResult placeDetailsResult = parsePlaceDetailsResult(res);
                 callNext.onSuccess(placeDetailsResult);
             }
         };
@@ -96,8 +97,8 @@ public class PlaceDetails {
         coma.getNetworkManager().addToQueue(request);
     }
 
-    public PlaceDetailsResult parsePlaceDetailsResult(Result result) {
-        PlaceDetailsResult placeDetailsResult = new PlaceDetailsResult();
+    public GooglePlaceDetailsResult parsePlaceDetailsResult(Result result) {
+        GooglePlaceDetailsResult placeDetailsResult = new GooglePlaceDetailsResult();
 
         placeDetailsResult.setRaw(result);
         placeDetailsResult.setHtmlAttributions(result.getAsString("html_attributions"));

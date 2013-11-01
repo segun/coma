@@ -5,17 +5,16 @@
 package com.idempotent.coma.result;
 
 import com.codename1.processing.Result;
+import com.idempotent.coma.result.helpers.SinglePlace;
 import java.util.List;
 
 /**
  *
  * @author aardvocate
  */
-public class PlacesSearchResult {
+public class GooglePlacesSearchResult extends GenericResult {
     private String[] htmlAttributions;
     private List<SinglePlace> results;
-    private String status;
-    private Result raw;
 
     public String[] getHtmlAttributions() {
         return htmlAttributions;

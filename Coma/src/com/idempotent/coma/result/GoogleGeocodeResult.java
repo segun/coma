@@ -5,15 +5,14 @@
 package com.idempotent.coma.result;
 
 import com.codename1.processing.Result;
+import com.idempotent.coma.result.helpers.SingleResult;
 import java.util.List;
 
 /**
  *
  * @author aardvocate
  */
-public class GoogleGeocodeResult {
-    private String status;
-    private Result raw;
+public class GoogleGeocodeResult extends GenericResult {
     private List<SingleResult> results;
 
     public String getStatus() {

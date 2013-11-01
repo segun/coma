@@ -5,16 +5,15 @@
 package com.idempotent.coma.result;
 
 import com.codename1.processing.Result;
+import com.idempotent.coma.result.helpers.SinglePlaceDetails;
 
 /**
  *
  * @author aardvocate
  */
-public class PlaceDetailsResult {
-    private String status;
+public class GooglePlaceDetailsResult extends GenericResult {
     private SinglePlaceDetails singlePlaceDetails;
     private String htmlAttributions;
-    private Result raw;
     
     public String getStatus() {
         return status;

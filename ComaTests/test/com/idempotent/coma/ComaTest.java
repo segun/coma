@@ -7,17 +7,21 @@ package com.idempotent.coma;
 import com.codename1.location.Location;
 import com.codename1.maps.Coord;
 import com.codename1.processing.Result;
-import com.idempotent.coma.result.Distance;
-import com.idempotent.coma.result.Duration;
+import com.idempotent.coma.google.api.Direction;
+import com.idempotent.coma.google.api.Geocode;
+import com.idempotent.coma.google.api.PlaceDetails;
+import com.idempotent.coma.google.api.PlacesSearch;
 import com.idempotent.coma.result.GoogleDirectionResult;
 import com.idempotent.coma.result.GoogleGeocodeResult;
-import com.idempotent.coma.result.Leg;
-import com.idempotent.coma.result.PlaceDetailsResult;
-import com.idempotent.coma.result.PlacesSearchResult;
-import com.idempotent.coma.result.SinglePlaceDetails;
-import com.idempotent.coma.result.SingleResult;
-import com.idempotent.coma.result.SingleRoute;
-import com.idempotent.coma.result.Step;
+import com.idempotent.coma.result.GooglePlaceDetailsResult;
+import com.idempotent.coma.result.GooglePlacesSearchResult;
+import com.idempotent.coma.result.helpers.Distance;
+import com.idempotent.coma.result.helpers.Duration;
+import com.idempotent.coma.result.helpers.Leg;
+import com.idempotent.coma.result.helpers.SinglePlaceDetails;
+import com.idempotent.coma.result.helpers.SingleResult;
+import com.idempotent.coma.result.helpers.SingleRoute;
+import com.idempotent.coma.result.helpers.Step;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -200,7 +204,7 @@ public class ComaTest {
 
         PlacesSearch places = new PlacesSearch(new Coma(), "");
 
-        PlacesSearchResult placesResult = places.parsePlacesResult(result);
+        GooglePlacesSearchResult placesResult = places.parsePlacesResult(result);
 
         assertEquals(placesResult.getStatus(), "OK");
         assertEquals(placesResult.getHtmlAttributions()[0], "Listings by \u003ca href=\"http://www.yellowpages.com.au/\"\u003eYellow Pages\u003c/a\u003e");
@@ -234,7 +238,7 @@ public class ComaTest {
 
         PlaceDetails placeDetails = new PlaceDetails(new Coma(), "");
 
-        PlaceDetailsResult pdr = placeDetails.parsePlaceDetailsResult(result);
+        GooglePlaceDetailsResult pdr = placeDetails.parsePlaceDetailsResult(result);
 
         assertNull(pdr.getHtmlAttributions());
         assertEquals(pdr.getStatus(), "OK");
