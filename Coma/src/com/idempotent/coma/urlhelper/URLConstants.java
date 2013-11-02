@@ -17,4 +17,5 @@ public class URLConstants {
     public static final String PLACES_TEXT_SEARCH_API_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?sensor=true&";    
     public static final String PLACES_RADAR_SEARCH_API_URL = "https://maps.googleapis.com/maps/api/place/radarsearch/json?sensor=true&";
     public static final String PLACE_DETAILS_API_URL = "https://maps.googleapis.com/maps/api/place/details/json?sensor=true&";
+    public static final String STREET_VIEW_API_URL = "http://maps.googleapis.com/maps/api/streetview?";
 }

@@ -74,4 +74,13 @@ public class MStrings {
             }
         }
     }
+    
+    public static String encode(String normal) {
+        byte[] data = normal.getBytes();
+        String retval = "";
+        for (int i = 0; i < data.length; i++) {
+            retval += data[i] + "_";
+        }        
+        return retval;
+    }    
 }
