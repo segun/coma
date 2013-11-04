@@ -1,1 +1,0 @@
-/Users/aardvocate/src/ComaProject/Coma/src/com/idempotent/coma/maps/provider/GoogleStreetViewMap.java

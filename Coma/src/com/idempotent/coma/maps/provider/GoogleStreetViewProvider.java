@@ -4,12 +4,17 @@
  */
 package com.idempotent.coma.maps.provider;
 
+import com.codename1.io.FileSystemStorage;
+import com.codename1.io.Storage;
+import com.codename1.io.Util;
 import com.codename1.io.services.ImageDownloadService;
 import com.codename1.location.Location;
+import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.Label;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
+import com.idempotent.coma.Coma;
 import com.idempotent.coma.stringshelper.MStrings;
 import com.idempotent.coma.urlhelper.URLConstants;
 
@@ -28,65 +33,78 @@ public class GoogleStreetViewProvider {
     private boolean sensor = true;
     private int tileWidth = 256;
     private int tileHeight = 256;
-    private int fov = 90;
-    private int heading = -1;
-    private int pitch = 0;
+    private int fov = 90, previousFov;
+    private int heading = -1, previousHeading;
+    private int pitch = 0, previousPitch;
     private boolean useDisplaySizeAsTileSize = false;
     private String url;
     private Location location;
+    private Coma coma;
+    /**
+     * Zoom In/Out
+     */
+    public static final int DEFAULT_FOV = 90;
+    public static final int MAX_FOV = 120;
+    public static final int MIN_FOV = 0;
+    public static final int INCREMENT_FOV = 5;
+    /**
+     * Move Up/Down
+     */
+    public static final int DEFAULT_PITCH = 0;
+    public static final int MAX_PITCH = 90;
+    public static final int MIN_PITCH = -90;
+    public static final int INCREMENT_PITCH = 5;
+    /**
+     * Move Right/Left
+     */
+    public static final int DEFAULT_HEADING = -360;
+    public static final int MAX_HEADING = 360;
+    public static final int MIN_HEADING = 0;
+    public static final int INCREMENT_HEADING = 2;
 
-    public GoogleStreetViewProvider(String apiKey, Location location) {
-        this(apiKey, location, false);
+    public GoogleStreetViewProvider(Coma coma, String apiKey, Location location) {
+        this(coma, apiKey, location, false);
     }
 
-    public GoogleStreetViewProvider(String apiKey, Location location, boolean useDisplaySizeAsTileSize) {
+    public GoogleStreetViewProvider(Coma coma, String apiKey, Location location, boolean useDisplaySizeAsTileSize) {
         this.url = URLConstants.STREET_VIEW_API_URL;
         this.apiKey = apiKey;
         this.location = location;
         this.useDisplaySizeAsTileSize = useDisplaySizeAsTileSize;
+        this.coma = coma;
     }
 
-    public void getImageAndDraw(final GoogleStreetViewMap mapComponent) {
+    public void getStreetView(Container mapContainer) {
+        previousFov = getFov();
+        previousPitch = getPitch();
+        previousHeading = getHeading();
+
         String urlToCall = constructURL();
+        String cacheId = getCacheId();
         System.out.println(urlToCall);
+        System.out.println(cacheId);
+
         Label l = new Label();
-        
+
         ImageDownloadService.createImageToStorage(urlToCall, l, getCacheId(), new Dimension(getTileWidth(), getTileHeight()));
-        mapComponent.addComponent(BorderLayout.CENTER, l);
-        mapComponent.animateLayout(750);
+        mapContainer.addComponent(BorderLayout.CENTER, l);
     }
-    
+
     private String constructURL() {
-        StringBuilder sb = new StringBuilder(url);
-
-        sb.append("location=");
-        sb.append(location.getLatitude());
-        sb.append(",");
-        sb.append(location.getLongitude());
-        sb.append("&fov=");
-        sb.append(getFov());
-        sb.append("&size=");
-        sb.append(getTileWidth());
-        sb.append("x");
-        sb.append(getTileHeight());
-        sb.append("&sensor=");
-        sb.append(sensor);
-        sb.append("&pitch=");
-        sb.append(pitch);
+        String query = "location=" + Util.encodeUrl(location.getLatitude() + "," + location.getLongitude())
+                + "&fov=" + Util.encodeUrl(getFov() + "")
+                + "&size=" + Util.encodeUrl(getTileWidth() + "x" + getTileHeight())
+                + "&sensor=" + Util.encodeUrl(sensor + "")
+                + "&pitch=" + Util.encodeUrl(pitch + "")
+                + "&key=" + Util.encodeUrl(apiKey);
         if (language != null) {
-            sb.append("&language=");
-            sb.append(language);
+            query += "&language=" + Util.encodeUrl(language);
         }
 
-        if (heading != -1) {
-            sb.append("&heading=");
-            sb.append(heading);
+        if (heading != DEFAULT_HEADING) {
+            query += "&heading=" + Util.encodeUrl(heading + "");
         }
-
-        sb.append("&key=");
-        sb.append(apiKey);
-
-        return sb.toString();
+        return url + query;
     }
 
     public int getTileWidth() {
@@ -150,12 +168,12 @@ public class GoogleStreetViewProvider {
 
     public void setFov(int fov) {
         this.fov = fov;
-        if (this.fov > 120) {
-            this.fov = 120;
+        if (this.fov > MAX_FOV) {
+            this.fov = MAX_FOV;
         }
 
-        if (this.fov < 0) {
-            this.fov = 0;
+        if (this.fov < MIN_FOV) {
+            this.fov = MIN_FOV;
         }
     }
 
@@ -174,13 +192,13 @@ public class GoogleStreetViewProvider {
 
     public void setHeading(int heading) {
         this.heading = heading;
-        if(this.heading > 360) {
-            this.heading = 360;
+        if (this.heading > MAX_HEADING) {
+            this.heading = MAX_HEADING;
         }
-        
-        if(this.heading < 0) {
-            this.heading = 0;
-        }        
+
+        if (this.heading < MIN_HEADING && this.heading != -DEFAULT_HEADING) {
+            this.heading = MIN_HEADING;
+        }
     }
 
     /**
@@ -197,12 +215,12 @@ public class GoogleStreetViewProvider {
     }
 
     public void setPitch(int pitch) {
-        if(this.pitch < -90) {
-            this.pitch = -90;
+        if (this.pitch < -MIN_PITCH) {
+            this.pitch = -MIN_PITCH;
         }
-        
-        if(this.pitch > 90) {
-            this.pitch = 90;
+
+        if (this.pitch > MAX_PITCH) {
+            this.pitch = MAX_PITCH;
         }
         this.pitch = pitch;
     }
@@ -216,6 +234,6 @@ public class GoogleStreetViewProvider {
     }
 
     private String getCacheId() {
-        return MStrings.encode(getFov() + "/" + getPitch() + "/" + getTileHeight() + "/"  + getTileWidth() + "/" + getHeading());
+        return "sv_" + MStrings.encode(getFov() + "/" + getPitch() + "/" + getTileHeight() + "/" + getTileWidth() + "/" + getHeading());
     }
 }
